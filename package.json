@@ -14,7 +14,7 @@
   "keywords": [],
   "author": "Alfat Jahan Rony",
   "license": "ISC",
-  "lint-stage": {
+  "lint-staged": {
     "src/**/*.ts": [
       "yarn lint-prettier"
     ]
