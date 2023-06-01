@@ -13,7 +13,7 @@
   "rules": {
     "no-unused-vars": "error",
     "@typescript-eslint/consistent-type-definitions": ["error", "type"],
-    // "no-console": "error",
+    "no-console": "error",
     // "no-undef": "error",
     "no-unused-expressions": "error",
     "no-unreachable": "error"
