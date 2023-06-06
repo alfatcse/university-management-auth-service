@@ -3,8 +3,14 @@ import config from '../../config'
 import { IGenericErrorMessage } from '../../interfaces/error'
 import handleValidationError from '../../errors/handleValidationError'
 import ApiError from '../../errors/ApiError'
+import { errorLogger } from '../../shared/logger'
 //global Error handler
 const globalErrorHandler: ErrorRequestHandler = (error, req, res, next) => {
+  // eslint-disable-next-line no-unused-expressions
+  config.env === 'development'
+    ? // eslint-disable-next-line no-console
+      console.log('Global Error Handler', error)
+    : errorLogger.error('Global Error Handler', error)
   let statusCode = 500
   let message = 'Something Went Wrong!'
   let errorMessages: IGenericErrorMessage[] = []
