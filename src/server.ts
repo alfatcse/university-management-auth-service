@@ -8,7 +8,9 @@ async function bootstrap() {
     await mongoose.connect(config.database_url as string)
     logger.info(`Database Connected`)
     app.listen(config.port, () => {
-      logger.info(`Example app listening on port ${config.port}`)
+      logger.info(
+        `Programming Hero User Auth Server listening on port ${config.port}`
+      )
     })
   } catch (err) {
     errorLogger.error('An Error Occurred', err)

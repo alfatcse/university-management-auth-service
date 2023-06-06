@@ -1,0 +1,14 @@
+{
+  message: 'Database Connected',
+  level: 'info',
+  service: 'user-service',
+  label: 'Programming Hero!',
+  timestamp: '2023-06-02T11:59:39.738Z'
+}
+{
+  message: 'Programming Hero User Auth Server listening on port 5009',
+  level: 'info',
+  service: 'user-service',
+  label: 'Programming Hero!',
+  timestamp: '2023-06-02T11:59:39.747Z'
+}

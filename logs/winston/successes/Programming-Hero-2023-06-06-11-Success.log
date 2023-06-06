@@ -1,0 +1,56 @@
+{
+  message: 'Database Connected',
+  level: 'info',
+  service: 'user-service',
+  label: 'Programming Hero!',
+  timestamp: '2023-06-06T09:00:22.661Z'
+}
+{
+  message: 'Programming Hero User Auth Server listening on port 5009',
+  level: 'info',
+  service: 'user-service',
+  label: 'Programming Hero!',
+  timestamp: '2023-06-06T09:00:22.667Z'
+}
+{
+  message: 'Database Connected',
+  level: 'info',
+  service: 'user-service',
+  label: 'Programming Hero!',
+  timestamp: '2023-06-06T09:00:38.210Z'
+}
+{
+  message: 'Programming Hero User Auth Server listening on port 5009',
+  level: 'info',
+  service: 'user-service',
+  label: 'Programming Hero!',
+  timestamp: '2023-06-06T09:00:38.216Z'
+}
+{
+  message: 'Database Connected',
+  level: 'info',
+  service: 'user-service',
+  label: 'Programming Hero!',
+  timestamp: '2023-06-06T09:03:03.250Z'
+}
+{
+  message: 'Programming Hero User Auth Server listening on port 5009',
+  level: 'info',
+  service: 'user-service',
+  label: 'Programming Hero!',
+  timestamp: '2023-06-06T09:03:03.257Z'
+}
+{
+  message: 'Database Connected',
+  level: 'info',
+  service: 'user-service',
+  label: 'Programming Hero!',
+  timestamp: '2023-06-06T09:03:28.066Z'
+}
+{
+  message: 'Programming Hero User Auth Server listening on port 5009',
+  level: 'info',
+  service: 'user-service',
+  label: 'Programming Hero!',
+  timestamp: '2023-06-06T09:03:28.074Z'
+}

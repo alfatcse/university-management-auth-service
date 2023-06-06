@@ -9,6 +9,31 @@
             "date": 1685697664016,
             "name": "/Users/apple/Desktop/Programming/Lavel2/Project/university-management-auth-service/logs/winston/errors/Programming-Hero-2023-06-02-11-Errors.log",
             "hash": "4c1569c2de581c2c5fefa54d129531c02ccdae8764e4c3485398f8f7ea959560"
+        },
+        {
+            "date": 1685700047113,
+            "name": "/Users/apple/Desktop/Programming/Lavel2/Project/university-management-auth-service/logs/winston/errors/Programming-Hero-2023-06-02-12-Errors.log",
+            "hash": "99119d75d3908c5d932eb56fe14f87d7df13962f3a640bd18cf57d952ea13cf9"
+        },
+        {
+            "date": 1685707179205,
+            "name": "/Users/apple/Desktop/Programming/Lavel2/Project/university-management-auth-service/logs/winston/errors/Programming-Hero-2023-06-02-13-Errors.log",
+            "hash": "946fd48ec22774c1e9418edb4a055acd39ba2b6ce6fda67a51d18d795508cb13"
+        },
+        {
+            "date": 1685707258637,
+            "name": "/Users/apple/Desktop/Programming/Lavel2/Project/university-management-auth-service/logs/winston/errors/Programming-Hero-2023-06-02-14-Errors.log",
+            "hash": "6699fc4d5bef69d3c8d056fda348ddc92988b6c4ec3fcfa20e5f10ea282b2ac9"
+        },
+        {
+            "date": 1686038923345,
+            "name": "/Users/apple/Desktop/Programming/Lavel2/Project/university-management-auth-service/logs/winston/errors/Programming-Hero-2023-06-06-10-Errors.log",
+            "hash": "11301348829ad2807ad1f83071e43967411f37fba36bce7a662465688e3afcc4"
+        },
+        {
+            "date": 1686042021879,
+            "name": "/Users/apple/Desktop/Programming/Lavel2/Project/university-management-auth-service/logs/winston/errors/Programming-Hero-2023-06-06-11-Errors.log",
+            "hash": "8a25f1eacd7e91195370fe8a539f7ae567ad75f774bf5bdd251bc6528e5e04d8"
         }
     ],
     "hashType": "sha256"
