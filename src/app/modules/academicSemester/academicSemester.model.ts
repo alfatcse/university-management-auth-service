@@ -6,7 +6,7 @@ import {
 import {
   academicSemesterMonths,
   academicSemesterTitles,
-  academicSemesterCode,
+  academicSemesterCodes,
 } from './academicSemester.constant';
 
 const AcademicSemesterSchema = new Schema<IAcademicSemester>(
@@ -23,7 +23,7 @@ const AcademicSemesterSchema = new Schema<IAcademicSemester>(
     code: {
       type: String,
       required: true,
-      enum: academicSemesterCode,
+      enum: academicSemesterCodes,
     },
     startMonth: {
       type: String,
@@ -40,7 +40,7 @@ const AcademicSemesterSchema = new Schema<IAcademicSemester>(
     timestamps: true,
   }
 );
-export const User = model<IAcademicSemester, AcademicSemesterModel>(
+export const AcademicSemester = model<IAcademicSemester, AcademicSemesterModel>(
   'AcademicSemester',
   AcademicSemesterSchema
 );

@@ -8,7 +8,7 @@ export const academicSemesterTitles: IAcademicSemesterTitles[] = [
   'Summer',
   'Fall',
 ];
-export const academicSemesterCode: IAcademicSemesterCodes[] = [
+export const academicSemesterCodes: IAcademicSemesterCodes[] = [
   '01',
   '02',
   '03',
