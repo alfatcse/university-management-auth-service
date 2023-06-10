@@ -10,6 +10,8 @@ const createSemester = async (
     throw new ApiError(httpStatus.BAD_REQUEST, 'Invalid Semester Code');
   }
   const result = await AcademicSemester.create(payload);
+  // eslint-disable-next-line no-console
+  console.log('result', result);
   return result;
 };
 export const AcademicSemesterService = {
