@@ -6,6 +6,7 @@ import httpStatus from 'http-status';
 import pick from '../../../shared/pick';
 import { paginationFields } from '../../../constant/pagination';
 import { IAcademicSemester } from './academicSemester.interface';
+import { academicSemesterFilterableFields } from './academicSemester.constant';
 const createSemester = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const { ...academicSemesterData } = req.body;
@@ -23,10 +24,10 @@ const createSemester = catchAsync(
 );
 const getAllSemesters = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
+    const filters = pick(req.query, academicSemesterFilterableFields);
     const paginationOptions = pick(req.query, paginationFields);
-    // eslint-disable-next-line no-console
-    console.log(paginationOptions);
     const result = await AcademicSemesterService.getAllsemesters(
+      filters,
       paginationOptions
     );
     sendResponse<IAcademicSemester[]>(res, {
