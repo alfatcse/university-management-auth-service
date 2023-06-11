@@ -45,6 +45,8 @@ academicSemesterSchema.pre('save', async function (next) {
     title: this.title,
     year: this.year,
   });
+  // eslint-disable-next-line no-console
+  console.log('is', isExist);
   if (isExist) {
     throw new ApiError(
       httpStatus.CONFLICT,
