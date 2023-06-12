@@ -13,7 +13,6 @@ import {
 } from '../../../interfaces/common';
 import { paginationHelper } from '../../../helpers/paginationhelper';
 import { SortOrder } from 'mongoose';
-
 const createSemester = async (
   payload: IAcademicSemester
 ): Promise<IAcademicSemester> => {
@@ -75,9 +74,22 @@ const updateSemester = async (
   id: string,
   payload: Partial<IAcademicSemester>
 ): Promise<IAcademicSemester | null> => {
+  if (
+    payload.title &&
+    payload.code &&
+    academicSemesterTitleCodeMapper[payload.title] !== payload.code
+  ) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Invalid Semester Code');
+  }
   const result = await AcademicSemester.findOneAndUpdate({ _id: id }, payload, {
     new: true,
   });
+  return result;
+};
+const deteleSemester = async (
+  id: string
+): Promise<IAcademicSemester | null> => {
+  const result = await AcademicSemester.findByIdAndDelete(id);
   return result;
 };
 export const AcademicSemesterService = {
@@ -85,4 +97,5 @@ export const AcademicSemesterService = {
   getAllsemesters,
   getSingleSemester,
   updateSemester,
+  deteleSemester,
 };
