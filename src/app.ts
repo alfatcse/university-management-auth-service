@@ -3,7 +3,6 @@ import cors from 'cors';
 import globalErrorHandler from './app/middlewares/globalErrorHandler';
 import routes from './app/routes';
 import httpStatus from 'http-status';
-import { generateFacultyId } from './app/modules/user/user.utils';
 const app: Application = express();
 app.use(cors());
 app.use(express.json());
@@ -32,10 +31,4 @@ app.use((req: Request, res: Response, next: NextFunction) => {
   });
   next();
 });
-const textid = async () => {
-  const test = await generateFacultyId();
-  // eslint-disable-next-line no-console
-  console.log(test);
-};
-textid();
 export default app;
