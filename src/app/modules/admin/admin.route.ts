@@ -1,3 +1,5 @@
 import express from 'express';
+import { AdminController } from './admin.controller';
 const router = express.Router();
-export const FacultyRoutes = router;
+router.get('/:id', AdminController.getSingleAdmin);
+export const AdminRoutes = router;
