@@ -7,6 +7,8 @@ import httpStatus from 'http-status';
 const createStudent: RequestHandler = catchAsync(
   async (req: Request, res: Response) => {
     const { student, ...userData } = req.body;
+    // eslint-disable-next-line no-console
+    console.log(student, 'userdata', userData);
     const result = await UserService.createStudent(student, userData);
     sendResponse(res, {
       statusCode: httpStatus.OK,
