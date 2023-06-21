@@ -11,6 +11,7 @@ import { IPaginationOptions } from '../../../interfaces/pagination';
 import { IGenericResponse } from '../../../interfaces/common';
 import { paginationHelper } from '../../../helpers/paginationhelper';
 import { facultySearchableFields } from './faculty.constant';
+
 const createFaculty = async (
   faculty: IFaculty,
   user: IUser

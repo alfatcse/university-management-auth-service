@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { IPaginationOptions } from '../../../interfaces/pagination';
 import { IGenericResponse } from '../../../interfaces/common';
 import { paginationHelper } from '../../../helpers/paginationhelper';
@@ -13,7 +12,6 @@ import config from '../../../config';
 import { AcademicSemester } from '../academicSemester/academicSemester.model';
 import { generateStudentId } from '../user/user.utils';
 import { User } from '../user/user.model';
-
 const getAllStudents = async (
   filters: IStudentFilters,
   paginationOptions: IPaginationOptions
