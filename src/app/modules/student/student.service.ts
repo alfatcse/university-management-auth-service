@@ -2,12 +2,18 @@
 import { IPaginationOptions } from '../../../interfaces/pagination';
 import { IGenericResponse } from '../../../interfaces/common';
 import { paginationHelper } from '../../../helpers/paginationhelper';
-import { SortOrder } from 'mongoose';
+import mongoose, { SortOrder } from 'mongoose';
 import { IStudent, IStudentFilters } from './student.interface';
 import { studentSearchableFields } from './student.constant';
 import { Student } from './student.model';
 import ApiError from '../../../errors/ApiError';
 import httpStatus from 'http-status';
+import { IUser } from '../user/user.interface';
+import config from '../../../config';
+import { AcademicSemester } from '../academicSemester/academicSemester.model';
+import { generateStudentId } from '../user/user.utils';
+import { User } from '../user/user.model';
+
 const getAllStudents = async (
   filters: IStudentFilters,
   paginationOptions: IPaginationOptions
@@ -107,9 +113,67 @@ const deteleSemester = async (id: string): Promise<IStudent | null> => {
     .populate('academicFaculty');
   return result;
 };
+const createStudent = async (
+  student: IStudent,
+  user: IUser
+): Promise<IUser | null> => {
+  // const id = await generateFacultyId();
+  // user.id = id;
+  if (!user.password) {
+    user.password = config.default_student_pass as string;
+  }
+  user.role = 'student';
+  const academicSemester = await AcademicSemester.findById(
+    student.academicSemester
+  );
+  //generate student id
+  const session = await mongoose.startSession();
+  let newUseAllData = null;
+  try {
+    session.startTransaction();
+    const id = await generateStudentId(academicSemester);
+    user.id = id;
+    student.id = id;
+    const newStudent = await Student.create([student], { session });
+    if (!newStudent.length) {
+      throw new ApiError(httpStatus.BAD_REQUEST, 'Failed to create Student');
+    }
+    user.student = newStudent[0]._id;
+    const newUser = await User.create([user], { session });
+    if (!newUser.length) {
+      throw new ApiError(httpStatus.BAD_REQUEST, 'Failed to create User');
+    }
+    newUseAllData = newUser[0];
+    await session.commitTransaction();
+    await session.endSession();
+  } catch (error) {
+    await session.abortTransaction();
+    await session.endSession();
+    throw error;
+  }
+
+  if (newUseAllData) {
+    newUseAllData = await User.findOne({ id: newUseAllData.id }).populate({
+      path: 'student',
+      populate: [
+        {
+          path: 'academicSemester',
+        },
+        {
+          path: 'academicDepartment',
+        },
+        {
+          path: 'academicFaculty',
+        },
+      ],
+    });
+  }
+  return newUseAllData;
+};
 export const StudentService = {
   getAllStudents,
   getSingleStudent,
   updateStudent,
   deteleSemester,
+  createStudent,
 };
