@@ -158,8 +158,8 @@ const deleteAdmin = async (id: string): Promise<IAdmin | null> => {
     }
     //delete user
     await User.deleteOne({ id });
-    session.commitTransaction();
-    session.endSession();
+    await session.commitTransaction();
+    await session.endSession();
 
     return student;
   } catch (error) {

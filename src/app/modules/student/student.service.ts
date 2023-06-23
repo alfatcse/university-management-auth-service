@@ -104,12 +104,32 @@ const updateStudent = async (
   );
   return result;
 };
-const deteleSemester = async (id: string): Promise<IStudent | null> => {
-  const result = await Student.findByIdAndDelete(id)
-    .populate('academicSemester')
-    .populate('academicDepartment')
-    .populate('academicFaculty');
-  return result;
+const deteleStudent = async (id: string): Promise<IStudent | null> => {
+  // check if the faculty is exist
+  const isExist = await Student.findOne({ id });
+  if (!isExist) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Student not found !');
+  }
+  const session = await mongoose.startSession();
+  try {
+    session.startTransaction();
+    //delete student first
+    const student = await Student.findOneAndDelete({ id }, { session });
+    if (!student) {
+      throw new ApiError(404, 'Failed to delete student');
+    }
+    //delete user
+    const user = await User.findOneAndDelete({ id }, { session });
+    if (!user) {
+      throw new ApiError(404, 'Failed to delete student');
+    }
+    await session.commitTransaction();
+    await session.endSession();
+    return student;
+  } catch (error) {
+    session.abortTransaction();
+    throw error;
+  }
 };
 const createStudent = async (
   student: IStudent,
@@ -172,6 +192,6 @@ export const StudentService = {
   getAllStudents,
   getSingleStudent,
   updateStudent,
-  deteleSemester,
+  deteleStudent,
   createStudent,
 };
