@@ -149,8 +149,8 @@ const deleteFaculty = async (id: string): Promise<IFaculty | null> => {
     }
     //delete user
     await User.deleteOne({ id });
-    session.commitTransaction();
-    session.endSession();
+    await session.commitTransaction();
+    await session.endSession();
 
     return faculty;
   } catch (error) {
