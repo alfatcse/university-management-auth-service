@@ -11,7 +11,7 @@ const getAllFaculties = catchAsync(async (req: Request, res: Response) => {
   // eslint-disable-next-line no-console
   console.log(req.headers.authorization);
   // eslint-disable-next-line no-console
-  console.log(req.user);
+  console.log('user COntoller', req.user);
   const filters = pick(req.query, facultyFilterableFields);
   const paginationOptions = pick(req.query, paginationFields);
   const result = await FacultyService.getAllFaculty(filters, paginationOptions);
