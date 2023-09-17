@@ -15,4 +15,8 @@ export default {
     refresh_expires_in: process.env.JWT_SECRET_REFRECH_EXPIRES,
   },
   bycrypt_salt_rounds: process.env.BCRYPT_SALT_ROUNDS,
+  redis: {
+    url: process.env.REDIS_URL,
+    expires_in: process.env.REDIS_TOKEN_EXPIRES_IN,
+  },
 };
