@@ -36,6 +36,14 @@ const setAccessToken = async (userId: string, token: string): Promise<void> => {
   const key = `access-token:${userId}`;
   await redisClint.set(key, token, { EX: Number(config.redis.expires_in) });
 };
+const getAccessToken = async (userId: string): Promise<string | null> => {
+  const key = `access-token:${userId}`;
+  return await redisClint.get(key);
+};
+const delAccessToken = async (userId: string): Promise<void> => {
+  const key = `access-token:${userId}`;
+  await redisClint.del(key);
+};
 const disconnect = async (): Promise<void> => {
   await redisClint.quit();
   await redisPubClint.quit();
@@ -48,6 +56,8 @@ export const RedisClint = {
   del,
   disconnect,
   setAccessToken,
+  getAccessToken,
+  delAccessToken,
   publish: redisPubClint.publish.bind(redisPubClint),
   subscribe: redisSubClint.subscribe.bind(redisSubClint),
 };
