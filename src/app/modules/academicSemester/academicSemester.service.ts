@@ -4,7 +4,10 @@ import {
   academicSemesterSearchableFields,
   academicSemesterTitleCodeMapper,
 } from './academicSemester.constant';
-import { IAcademicSemester } from './academicSemester.interface';
+import {
+  IAcademicSemester,
+  IAcademicSemesterCreatedEvent,
+} from './academicSemester.interface';
 import { AcademicSemester } from './academicSemester.model';
 import { IPaginationOptions } from '../../../interfaces/pagination';
 import {
@@ -92,10 +95,23 @@ const deteleSemester = async (
   const result = await AcademicSemester.findByIdAndDelete(id);
   return result;
 };
+const createSemesterFromEvent = async (
+  e: IAcademicSemesterCreatedEvent
+): Promise<void> => {
+  await AcademicSemester.create({
+    title: e.title,
+    year: e.year,
+    code: e.code,
+    startMonth: e.startMonth,
+    endMonth: e.endMonth,
+    syncId: e.id,
+  });
+};
 export const AcademicSemesterService = {
   createSemester,
   getAllsemesters,
   getSingleSemester,
   updateSemester,
   deteleSemester,
+  createSemesterFromEvent,
 };

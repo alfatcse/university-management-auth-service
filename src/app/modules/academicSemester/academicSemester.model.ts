@@ -7,7 +7,6 @@ import {
   academicSemesterMonths,
 } from './academicSemester.constant';
 import { IAcademicSemester } from './academicSemester.interface';
-
 const academicSemesterSchema = new Schema<IAcademicSemester>(
   {
     title: {
@@ -16,7 +15,7 @@ const academicSemesterSchema = new Schema<IAcademicSemester>(
       enum: academicSemesterTitles,
     },
     year: {
-      type: String,
+      type: Number,
       required: true,
     },
     code: {
@@ -34,6 +33,10 @@ const academicSemesterSchema = new Schema<IAcademicSemester>(
       required: true,
       enum: academicSemesterMonths,
     },
+    syncId: {
+      type: String,
+      required: true,
+    },
   },
   {
     timestamps: true,
@@ -45,8 +48,6 @@ academicSemesterSchema.pre('save', async function (next) {
     title: this.title,
     year: this.year,
   });
-  // eslint-disable-next-line no-console
-  console.log('is', isExist);
   if (isExist) {
     throw new ApiError(
       httpStatus.CONFLICT,
