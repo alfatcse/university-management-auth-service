@@ -3,7 +3,7 @@ import app from './app';
 import config from './config';
 import { logger, errorLogger } from './shared/logger';
 import { Server } from 'http';
-import { RedisClint } from './shared/redis';
+import { RedisClient } from './shared/redis';
 import subscribeToEvents from './events';
 let server: Server;
 process.on('uncaughtException', error => {
@@ -18,7 +18,7 @@ process.on('uncaughtException', error => {
 // })
 async function bootstrap() {
   try {
-    await RedisClint.connect().then(() => {
+    await RedisClient.connect().then(() => {
       subscribeToEvents();
     });
     await mongoose.connect(config.database_url as string);
