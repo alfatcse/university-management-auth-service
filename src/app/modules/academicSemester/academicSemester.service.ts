@@ -124,8 +124,6 @@ const updateOneIntoDBFromEvent = async (
   );
 };
 const deleteOneFromDBFromEvent = async (syncId: string): Promise<void> => {
-  // eslint-disable-next-line no-console
-  console.log('del');
   await AcademicSemester.findOneAndDelete({ syncId });
 };
 export const AcademicSemesterService = {

@@ -4,6 +4,7 @@ import { IPaginationOptions } from '../../../interfaces/pagination';
 import { academicFacultySearchableFields } from './academicFaculty.constants';
 import {
   IAcademicFaculty,
+  IAcademicFacultyCreatedEvent,
   IAcademicFacultyFilters,
 } from './academicFaculty.interfaces';
 import { AcademicFaculty } from './academicFaculty.model';
@@ -14,7 +15,6 @@ const createFaculty = async (
   const result = await AcademicFaculty.create(payload);
   return result;
 };
-
 const getAllFaculties = async (
   filters: IAcademicFacultyFilters,
   paginationOptions: IPaginationOptions
@@ -68,14 +68,12 @@ const getAllFaculties = async (
     data: result,
   };
 };
-
 const getSingleFaculty = async (
   id: string
 ): Promise<IAcademicFaculty | null> => {
   const result = await AcademicFaculty.findById(id);
   return result;
 };
-
 const updateFaculty = async (
   id: string,
   payload: Partial<IAcademicFaculty>
@@ -85,18 +83,25 @@ const updateFaculty = async (
   });
   return result;
 };
-
 const deleteByIdFromDB = async (
   id: string
 ): Promise<IAcademicFaculty | null> => {
   const result = await AcademicFaculty.findByIdAndDelete(id);
   return result;
 };
-
+const createAcademicFacultyFromEvent = async (
+  e: IAcademicFacultyCreatedEvent
+): Promise<void> => {
+  await AcademicFaculty.create({
+    title: e.title,
+    syncId: e.id,
+  });
+};
 export const AcademicFacultyService = {
   createFaculty,
   getAllFaculties,
   getSingleFaculty,
   updateFaculty,
   deleteByIdFromDB,
+  createAcademicFacultyFromEvent,
 };
