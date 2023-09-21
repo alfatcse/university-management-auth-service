@@ -4,10 +4,12 @@ import { IPaginationOptions } from '../../../interfaces/pagination';
 import { academicDepartmentSearchableFields } from './academicDepartment.constants';
 import {
   IAcademicDepartment,
+  IAcademicDepartmentCreatedEvent,
   IAcademicDepartmentFilters,
 } from './academicDepartment.interfaces';
 import { AcademicDepartment } from './academicDepartment.model';
 import { paginationHelper } from '../../../helpers/paginationhelper';
+import { AcademicFaculty } from '../academicFaculty/academicFaculty.model';
 
 const getAllDepartments = async (
   filters: IAcademicDepartmentFilters,
@@ -103,11 +105,25 @@ const deleteDepartment = async (
   const result = await AcademicDepartment.findByIdAndDelete(id);
   return result;
 };
+const createDepartmentFromEvent = async (
+  e: IAcademicDepartmentCreatedEvent
+): Promise<void> => {
+  const academicFaculty = await AcademicFaculty.findOne({
+    syncId: e.academicFacultyId,
+  });
+  const payload = {
+    title: e.title,
+    academicFaculty: academicFaculty?._id,
+    syncId: e.id,
+  };
 
+  await AcademicDepartment.create(payload);
+};
 export const AcademicDepartmentService = {
   getAllDepartments,
   getSingleDepartment,
   updateDepartment,
   deleteDepartment,
   createDepartment,
+  createDepartmentFromEvent,
 };
