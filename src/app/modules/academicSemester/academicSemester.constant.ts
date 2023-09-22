@@ -40,6 +40,7 @@ export const academicSemesterFilterableFields = [
   'title',
   'code',
   'year',
+  'syncId',
 ];
 export const EVENT_ACADEMIC_SEMESTER_CREATED = 'academic-semester.create';
 export const EVENT_ACADEMIC_SEMESTER_UPDATED = 'academic-semester.update';

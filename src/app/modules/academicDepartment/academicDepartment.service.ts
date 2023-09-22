@@ -116,7 +116,6 @@ const createDepartmentFromEvent = async (
     academicFaculty: academicFaculty?._id,
     syncId: e.id,
   };
-
   await AcademicDepartment.create(payload);
 };
 export const AcademicDepartmentService = {

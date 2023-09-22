@@ -137,6 +137,8 @@ const createStudent = async (
 ): Promise<IUser | null> => {
   // const id = await generateFacultyId();
   // user.id = id;
+  // eslint-disable-next-line no-console
+  console.log('Student', student, 'User', user);
   if (!user.password) {
     user.password = config.default_student_pass as string;
   }
@@ -169,7 +171,6 @@ const createStudent = async (
     await session.endSession();
     throw error;
   }
-
   if (newUseAllData) {
     newUseAllData = await User.findOne({ id: newUseAllData.id }).populate({
       path: 'student',
