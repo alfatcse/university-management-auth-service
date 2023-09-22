@@ -3,7 +3,10 @@ import { IGenericResponse } from '../../../interfaces/common';
 import { paginationHelper } from '../../../helpers/paginationhelper';
 import mongoose, { SortOrder } from 'mongoose';
 import { IStudent, IStudentFilters } from './student.interface';
-import { studentSearchableFields } from './student.constant';
+import {
+  EVENT_STUDENT_CREATED,
+  studentSearchableFields,
+} from './student.constant';
 import { Student } from './student.model';
 import ApiError from '../../../errors/ApiError';
 import httpStatus from 'http-status';
@@ -12,6 +15,7 @@ import config from '../../../config';
 import { AcademicSemester } from '../academicSemester/academicSemester.model';
 import { generateStudentId } from '../user/user.utils';
 import { User } from '../user/user.model';
+import { RedisClient } from '../../../shared/redis';
 const getAllStudents = async (
   filters: IStudentFilters,
   paginationOptions: IPaginationOptions
@@ -137,8 +141,6 @@ const createStudent = async (
 ): Promise<IUser | null> => {
   // const id = await generateFacultyId();
   // user.id = id;
-  // eslint-disable-next-line no-console
-  console.log('Student', student, 'User', user);
   if (!user.password) {
     user.password = config.default_student_pass as string;
   }
@@ -186,6 +188,12 @@ const createStudent = async (
         },
       ],
     });
+  }
+  if (newUseAllData) {
+    await RedisClient.publish(
+      EVENT_STUDENT_CREATED,
+      JSON.stringify(newUseAllData.student)
+    );
   }
   return newUseAllData;
 };

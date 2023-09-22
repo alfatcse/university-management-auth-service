@@ -10,7 +10,11 @@ import { User } from '../user/user.model';
 import { IPaginationOptions } from '../../../interfaces/pagination';
 import { IGenericResponse } from '../../../interfaces/common';
 import { paginationHelper } from '../../../helpers/paginationhelper';
-import { facultySearchableFields } from './faculty.constant';
+import {
+  EVENT_FACULTY_CREATED,
+  facultySearchableFields,
+} from './faculty.constant';
+import { RedisClient } from '../../../shared/redis';
 
 const createFaculty = async (
   faculty: IFaculty,
@@ -21,7 +25,7 @@ const createFaculty = async (
   }
   user.role = 'faculty';
   const session = await mongoose.startSession();
-  let newUseAllData = null;
+  let newUserAllData = null;
   try {
     session.startTransaction();
     const id = await generateFacultyId();
@@ -36,7 +40,7 @@ const createFaculty = async (
     if (!newUser.length) {
       throw new ApiError(httpStatus.BAD_REQUEST, 'Failed to Create Faculty');
     }
-    newUseAllData = newUser[0];
+    newUserAllData = newUser[0];
     await session.commitTransaction();
     await session.endSession();
   } catch (error) {
@@ -44,8 +48,8 @@ const createFaculty = async (
     await session.endSession();
     throw error;
   }
-  if (newUseAllData) {
-    newUseAllData = await User.findOne({ id: newUseAllData.id }).populate({
+  if (newUserAllData) {
+    newUserAllData = await User.findOne({ id: newUserAllData.id }).populate({
       path: 'faculty',
       populate: [
         {
@@ -57,7 +61,13 @@ const createFaculty = async (
       ],
     });
   }
-  return newUseAllData;
+  if (newUserAllData) {
+    await RedisClient.publish(
+      EVENT_FACULTY_CREATED,
+      JSON.stringify(newUserAllData.faculty)
+    );
+  }
+  return newUserAllData;
 };
 const getAllFaculty = async (
   filters: IFacultyFilter,
