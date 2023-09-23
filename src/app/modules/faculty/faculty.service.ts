@@ -12,6 +12,7 @@ import { IGenericResponse } from '../../../interfaces/common';
 import { paginationHelper } from '../../../helpers/paginationhelper';
 import {
   EVENT_FACULTY_CREATED,
+  EVENT_FACULTY_UPDATED,
   facultySearchableFields,
 } from './faculty.constant';
 import { RedisClient } from '../../../shared/redis';
@@ -138,6 +139,9 @@ const updateFaculty = async (
   const result = await Faculty.findOneAndUpdate({ id }, updatedFacultyData, {
     new: true,
   });
+  if (result) {
+    await RedisClient.publish(EVENT_FACULTY_UPDATED, JSON.stringify(result));
+  }
   return result;
 };
 const deleteFaculty = async (id: string): Promise<IFaculty | null> => {
