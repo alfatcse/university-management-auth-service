@@ -13,6 +13,10 @@ const userSchema = new Schema<IUser, Record<string, never>>(
       type: String,
       required: true,
     },
+    profileImage: {
+      type: String,
+      required: true,
+    },
     needsPasswordChange: {
       type: Boolean,
       default: true,

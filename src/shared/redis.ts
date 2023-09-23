@@ -49,7 +49,7 @@ const disconnect = async (): Promise<void> => {
   await redisPubClint.quit();
   await redisSubClint.quit();
 };
-export const RedisClint = {
+export const RedisClient = {
   connect,
   set,
   get,

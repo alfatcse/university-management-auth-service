@@ -12,13 +12,13 @@ const loginUser = catchAsync(async (req: Request, res: Response) => {
     secure: config.env === 'production',
     httpOnly: true,
   };
-  const { refreshToken, ...others } = result;
+  const { refreshToken } = result;
   res.cookie('refreshToken', refreshToken, cookieOptions);
   sendResponse<ILoginUserResponse>(res, {
     statusCode: httpStatus.OK,
     success: true,
     message: 'User login Successfully',
-    data: others,
+    data: result,
   });
 });
 const changePassword = catchAsync(async (req: Request, res: Response) => {

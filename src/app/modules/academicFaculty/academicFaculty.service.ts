@@ -3,7 +3,9 @@ import { IGenericResponse } from '../../../interfaces/common';
 import { IPaginationOptions } from '../../../interfaces/pagination';
 import { academicFacultySearchableFields } from './academicFaculty.constants';
 import {
+  AcademicFacultyUpdatedEvent,
   IAcademicFaculty,
+  IAcademicFacultyCreatedEvent,
   IAcademicFacultyFilters,
 } from './academicFaculty.interfaces';
 import { AcademicFaculty } from './academicFaculty.model';
@@ -14,7 +16,6 @@ const createFaculty = async (
   const result = await AcademicFaculty.create(payload);
   return result;
 };
-
 const getAllFaculties = async (
   filters: IAcademicFacultyFilters,
   paginationOptions: IPaginationOptions
@@ -24,7 +25,8 @@ const getAllFaculties = async (
     paginationHelper.calculatePagination(paginationOptions);
 
   const andConditions = [];
-
+  // eslint-disable-next-line no-console
+  console.log(filtersData);
   if (searchTerm) {
     andConditions.push({
       $or: academicFacultySearchableFields.map(field => ({
@@ -68,14 +70,12 @@ const getAllFaculties = async (
     data: result,
   };
 };
-
 const getSingleFaculty = async (
   id: string
 ): Promise<IAcademicFaculty | null> => {
   const result = await AcademicFaculty.findById(id);
   return result;
 };
-
 const updateFaculty = async (
   id: string,
   payload: Partial<IAcademicFaculty>
@@ -85,18 +85,42 @@ const updateFaculty = async (
   });
   return result;
 };
-
 const deleteByIdFromDB = async (
   id: string
 ): Promise<IAcademicFaculty | null> => {
   const result = await AcademicFaculty.findByIdAndDelete(id);
   return result;
 };
-
+const createAcademicFacultyFromEvent = async (
+  e: IAcademicFacultyCreatedEvent
+): Promise<void> => {
+  await AcademicFaculty.create({
+    title: e.title,
+    syncId: e.id,
+  });
+};
+const updateOneIntoDBFromEvent = async (
+  e: AcademicFacultyUpdatedEvent
+): Promise<void> => {
+  await AcademicFaculty.findOneAndUpdate(
+    { syncId: e.id },
+    {
+      $set: {
+        title: e.title,
+      },
+    }
+  );
+};
+const deleteOneFromDBFromEvent = async (syncId: string): Promise<void> => {
+  await AcademicFaculty.findOneAndDelete({ syncId });
+};
 export const AcademicFacultyService = {
   createFaculty,
   getAllFaculties,
   getSingleFaculty,
   updateFaculty,
   deleteByIdFromDB,
+  updateOneIntoDBFromEvent,
+  createAcademicFacultyFromEvent,
+  deleteOneFromDBFromEvent,
 };

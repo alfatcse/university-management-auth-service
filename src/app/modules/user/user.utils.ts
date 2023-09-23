@@ -17,7 +17,8 @@ export const generateStudentId = async (
   const currentId =
     (await findLastStudentId()) || (0).toString().padStart(5, '0');
   let incrementedId = (parseInt(currentId) + 1).toString().padStart(5, '0');
-  incrementedId = `${academicSemester?.year.substring(2)}${
+  const numAsString = `${academicSemester?.year}`;
+  incrementedId = `${numAsString.substring(2)}${
     academicSemester?.code
   }${incrementedId}`;
   // eslint-disable-next-line no-console
