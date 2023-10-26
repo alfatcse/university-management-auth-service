@@ -39,6 +39,7 @@ export const findLastAdminId = async (): Promise<string | undefined> => {
       createdAt: -1,
     })
     .lean();
+
   return lastFaculty?.id ? lastFaculty.id.substring(2) : undefined;
 };
 export const generateFacultyId = async (): Promise<string> => {

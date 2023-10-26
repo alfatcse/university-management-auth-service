@@ -25,8 +25,6 @@ const getAllFaculties = async (
     paginationHelper.calculatePagination(paginationOptions);
 
   const andConditions = [];
-  // eslint-disable-next-line no-console
-  console.log(filtersData);
   if (searchTerm) {
     andConditions.push({
       $or: academicFacultySearchableFields.map(field => ({
