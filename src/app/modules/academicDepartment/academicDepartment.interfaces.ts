@@ -21,3 +21,12 @@ export type IAcademicDepartmentCreatedEvent = {
   academicFacultyId: string;
   id: string;
 };
+export type AcademicDepartmentUpdatedEvent = {
+  id: string;
+  title: string;
+  academicFacultyId: string;
+};
+
+export type AcademicDepartmentDeletedEvent = {
+  id: string;
+};

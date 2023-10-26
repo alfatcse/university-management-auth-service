@@ -4,6 +4,8 @@ import validateRequest from '../../middlewares/validateRequest';
 import { FacultyController } from '../faculty/faculty.controller';
 import { AdminController } from '../admin/admin.controller';
 import { StudentController } from '../student/student.controller';
+import auth from '../../middlewares/auth';
+import { ENUM_USER_ROLE } from '../../../enums/users';
 const router = express.Router();
 router.post(
   '/create-student',
@@ -13,6 +15,7 @@ router.post(
 router.post(
   '/create-faculty',
   validateRequest(UserValidation.createFacultyZodSchema),
+  auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.SUPER_ADMIN),
   FacultyController.createFaculty
 );
 router.post(
