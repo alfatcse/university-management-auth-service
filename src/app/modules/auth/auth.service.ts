@@ -44,8 +44,6 @@ const refreshToken = async (token: string): Promise<IRefreshTokenResponse> => {
       token,
       config.jwt.refresh_secret as Secret
     );
-    // eslint-disable-next-line no-console
-    console.log(verifiedToken);
   } catch (err) {
     throw new ApiError(httpStatus.FORBIDDEN, 'invalid refreshToken');
   }

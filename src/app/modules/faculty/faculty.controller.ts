@@ -8,10 +8,6 @@ import { facultyFilterableFields } from './faculty.constant';
 import { paginationFields } from '../../../constant/pagination';
 import { FacultyService } from './faculty.service';
 const getAllFaculties = catchAsync(async (req: Request, res: Response) => {
-  // eslint-disable-next-line no-console
-  console.log(req.headers.authorization);
-  // eslint-disable-next-line no-console
-  console.log('user COntoller', req.user);
   const filters = pick(req.query, facultyFilterableFields);
   const paginationOptions = pick(req.query, paginationFields);
   const result = await FacultyService.getAllFaculty(filters, paginationOptions);

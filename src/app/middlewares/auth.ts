@@ -15,8 +15,7 @@ const auth =
       let verifiedUser = null;
       verifiedUser = jwtHelpers.verifyToken(token, config.jwt.secret as Secret);
       req.user = verifiedUser;
-      // eslint-disable-next-line no-console
-      // console.log('user:::', req.user);
+
       if (requiredRoles.length && !requiredRoles.includes(verifiedUser.role)) {
         throw new ApiError(httpStatus.FORBIDDEN, 'Not Authorized');
       }

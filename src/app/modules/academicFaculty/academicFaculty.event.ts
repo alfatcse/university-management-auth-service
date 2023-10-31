@@ -18,8 +18,6 @@ const initAcademicFacultyEvents = () => {
   RedisClient.subscribe(EVENT_ACADEMIC_FACULTY_DELETED, async (e: string) => {
     const data = JSON.parse(e);
     await AcademicFacultyService.deleteOneFromDBFromEvent(data.id);
-    // eslint-disable-next-line no-console
-    console.log('Updated data: ', data);
   });
 };
 

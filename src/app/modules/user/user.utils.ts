@@ -21,8 +21,7 @@ export const generateStudentId = async (
   incrementedId = `${numAsString.substring(2)}${
     academicSemester?.code
   }${incrementedId}`;
-  // eslint-disable-next-line no-console
-  console.log(incrementedId);
+
   return incrementedId;
 };
 export const findLastFacultyId = async (): Promise<string | undefined> => {
