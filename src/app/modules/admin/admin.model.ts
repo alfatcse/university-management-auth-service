@@ -65,7 +65,7 @@ export const AdminSchema = new Schema<IAdmin, AdminModel>(
     },
     managementDepartment: {
       type: Schema.Types.ObjectId,
-      ref: 'AcademicDepartment',
+      ref: 'ManagementDepartment',
       required: true,
     },
     profileImage: {
