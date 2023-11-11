@@ -25,7 +25,7 @@ async function bootstrap() {
     logger.info(`Database Connected`);
     server = app.listen(config.port, () => {
       logger.info(
-        `Programming Hero User Auth Server listening on port ${config.port}`
+        `University Management Auth Server listening on port ${config.port}`
       );
     });
   } catch (err) {

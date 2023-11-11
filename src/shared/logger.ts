@@ -11,7 +11,11 @@ const myFormat = printf(({ level, message, label, timestamp }) => {
 });
 const logger = createLogger({
   level: 'info',
-  format: combine(label({ label: 'Programming Hero!' }), timestamp(), myFormat),
+  format: combine(
+    label({ label: 'University Management!' }),
+    timestamp(),
+    myFormat
+  ),
   defaultMeta: { service: 'user-service' },
   transports: [
     new transports.Console(),
@@ -21,7 +25,7 @@ const logger = createLogger({
         'logs',
         'winston',
         'successes',
-        'Programming-Hero-%DATE%-Success.log'
+        'University-Management-%DATE%-Success.log'
       ),
       datePattern: 'YYYY-MM-DD-HH',
       zippedArchive: true,
@@ -32,7 +36,11 @@ const logger = createLogger({
 });
 const errorLogger = createLogger({
   level: 'error',
-  format: combine(label({ label: 'Programming Hero!' }), timestamp(), myFormat),
+  format: combine(
+    label({ label: 'University Management!' }),
+    timestamp(),
+    myFormat
+  ),
   defaultMeta: { service: 'user-service' },
   transports: [
     new transports.Console(),
@@ -42,7 +50,7 @@ const errorLogger = createLogger({
         'logs',
         'winston',
         'errors',
-        'Programming-Hero-%DATE%-Errors.log'
+        'University-Management-%DATE%-Errors.log'
       ),
       datePattern: 'YYYY-MM-DD-HH',
       zippedArchive: true,
