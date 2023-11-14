@@ -123,7 +123,9 @@ const forgotPass = async (payload: any) => {
     config.jwt.secret as string,
     '50m'
   );
-  const resetLink: string = config.resetLink + `token=${passwordResetToken}`;
+  const resetLink: string =
+    config.resetLink +
+    `/reset-password?id=${user.id}&token=${passwordResetToken}`;
   await sendEmail(
     profile.email,
     `<div>
