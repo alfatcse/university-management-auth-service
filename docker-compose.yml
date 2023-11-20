@@ -5,4 +5,4 @@ services:
     container_name: university-management-auth-service
     network_mode: 'host'
     ports:
-      - "5009:5009" # Map port 5009 on the host to port 5009 in the container
+      - "5009:5009" 

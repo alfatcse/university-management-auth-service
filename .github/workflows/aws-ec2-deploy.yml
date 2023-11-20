@@ -18,4 +18,4 @@ jobs:
       - name: Pull image from docker hub
         run: docker pull ${{secrets.DOCKERHUB_USERNAME}}/university-management-auth-service:latest
       - name: Run the Image
-        run: docker compose up -d
+        run: docker-compose -f docker-compose.yml up -d
