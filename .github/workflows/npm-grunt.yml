@@ -14,3 +14,6 @@ jobs:
 
       - name: Login to docker hub
         run: echo "${{secrets.DOCKERGUB_TOKEN}}" | docker login -u "${{secrets.DOCKERGUB_USERNAME}}" --password-stdin
+
+      - name: Checkout Code
+        uses: docker build . --file Dockerfile --tag ${{secrets.DOCKERGUB_TOKEN}}/uni-auth-docker-aws-cicd:latest
