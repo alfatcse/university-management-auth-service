@@ -13,7 +13,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Login to docker hub
-        run: echo "${{secrets.DOCKERGUB_TOKEN}}" | docker login -u "${{secrets.DOCKERGUB_USERNAME}}" --password-stdin
+        run: echo "${{secrets.DOCKERHUB_TOKEN}}" | docker login -u "${{secrets.DOCKERHUB_USERNAME}}" --password-stdin
 
-      - name: Checkout Code
-        run: docker build . --file Dockerfile --tag ${{secrets.DOCKERGUB_TOKEN}}/university-management-auth-service:latest
+      - name: Build Docker Image
+        run: docker build . --file Dockerfile --tag ${{secrets.DOCKERGUB_USERNAME}}/university-management-auth-service:latest
