@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { IUser } from '../user/user.interface';
 import { IFaculty, IFacultyFilter } from './faculty.interface';
 import config from '../../../config/index';
