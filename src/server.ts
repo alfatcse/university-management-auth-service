@@ -6,7 +6,7 @@ import { Server } from 'http';
 import { RedisClient } from './shared/redis';
 import subscribeToEvents from './events';
 let server: Server;
-process.on('uncaughtException', error => {
+process.on('uncaughtException', (error) => {
   errorLogger.error(error);
   process.exit(1);
 });
@@ -23,16 +23,14 @@ async function bootstrap() {
     });
     const uri: string = config.database_url as string;
     await mongoose.connect(uri);
-    logger.info(`Database Connected`);
+    logger.info(`Database Connected Here`);
     server = app.listen(config.port, () => {
-      logger.info(
-        `University Management Auth Server listening on port ${config.port}`
-      );
+      logger.info(`University Management Auth Server listening on port ${config.port}`);
     });
   } catch (err) {
     errorLogger.error('An Error Occurred', err);
   }
-  process.on('unhandledRejection', error => {
+  process.on('unhandledRejection', (error) => {
     if (server) {
       server.close(() => {
         errorLogger.error(error);
