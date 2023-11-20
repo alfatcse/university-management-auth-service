@@ -27,7 +27,7 @@ COPY --from=build /app ./
 RUN ["chmod", "+x", "./entrypoint.sh"]
 
 # Expose the port
-EXPOSE 5009
+EXPOSE 5000
 
 # Specify the entrypoint
 ENTRYPOINT ["sh", "./entrypoint.sh"]
