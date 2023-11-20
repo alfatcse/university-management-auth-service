@@ -16,4 +16,4 @@ jobs:
         run: echo "${{secrets.DOCKERGUB_TOKEN}}" | docker login -u "${{secrets.DOCKERGUB_USERNAME}}" --password-stdin
 
       - name: Checkout Code
-        uses: docker build . --file Dockerfile --tag ${{secrets.DOCKERGUB_TOKEN}}/university-management-auth-service:latest
+        run: docker build . --file Dockerfile --tag ${{secrets.DOCKERGUB_TOKEN}}/university-management-auth-service:latest
