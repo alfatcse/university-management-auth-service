@@ -3,17 +3,17 @@ FROM node:18-alpine AS build
 
 WORKDIR /app
 
-# Copy package.json and package-lock.json separately to leverage Docker's caching
-COPY package.json package-lock.json ./
+# Copy package.json and yarn.lock separately to leverage Docker's caching
+COPY package.json yarn.lock ./
 
-# Install dependencies using npm
-RUN npm install
+# Install dependencies
+RUN yarn install --frozen-lockfile
 
 # Copy the rest of the application
 COPY . .
 
 # Build the application
-RUN npm run build
+RUN yarn build
 
 # ---- Production Stage ----
 FROM node:18-alpine AS production
