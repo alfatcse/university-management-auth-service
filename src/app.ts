@@ -17,7 +17,7 @@ app.use('/api/v1', routes);
 //   throw new Error('Testing error logger')
 // })
 app.get('/', async (req, res) => {
-  res.send('server is running');
+  res.send('Server is Running');
 });
 app.use(globalErrorHandler);
 app.use((req: Request, res: Response, next: NextFunction) => {
@@ -27,9 +27,9 @@ app.use((req: Request, res: Response, next: NextFunction) => {
     errorMessage: [
       {
         path: req.originalUrl,
-        message: 'API not found',
-      },
-    ],
+        message: 'API not found'
+      }
+    ]
   });
   next();
 });
