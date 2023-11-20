@@ -6,7 +6,7 @@ import {
   AcademicDepartmentUpdatedEvent,
   IAcademicDepartment,
   IAcademicDepartmentCreatedEvent,
-  IAcademicDepartmentFilters,
+  IAcademicDepartmentFilters
 } from './academicDepartment.interfaces';
 import { AcademicDepartment } from './academicDepartment.model';
 import { paginationHelper } from '../../../helpers/paginationhelper';
@@ -25,20 +25,20 @@ const getAllDepartments = async (
 
   if (searchTerm) {
     andConditions.push({
-      $or: academicDepartmentSearchableFields.map(field => ({
+      $or: academicDepartmentSearchableFields.map((field) => ({
         [field]: {
           $regex: searchTerm,
-          $paginationOptions: 'i',
-        },
-      })),
+          $paginationOptions: 'i'
+        }
+      }))
     });
   }
 
   if (Object.keys(filtersData).length) {
     andConditions.push({
       $and: Object.entries(filtersData).map(([field, value]) => ({
-        [field]: value,
-      })),
+        [field]: value
+      }))
     });
   }
 
@@ -47,8 +47,7 @@ const getAllDepartments = async (
   if (sortBy && sortOrder) {
     sortConditions[sortBy] = sortOrder;
   }
-  const whereConditions =
-    andConditions.length > 0 ? { $and: andConditions } : {};
+  const whereConditions = andConditions.length > 0 ? { $and: andConditions } : {};
 
   const result = await AcademicDepartment.find(whereConditions)
     .populate('academicFaculty')
@@ -62,27 +61,21 @@ const getAllDepartments = async (
     meta: {
       page,
       limit,
-      total,
+      total
     },
-    data: result,
+    data: result
   };
 };
 
 const createDepartment = async (
   payload: IAcademicDepartment
 ): Promise<IAcademicDepartment | null> => {
-  const result = (await AcademicDepartment.create(payload)).populate(
-    'academicFaculty'
-  );
+  const result = (await AcademicDepartment.create(payload)).populate('academicFaculty');
   return result;
 };
 
-const getSingleDepartment = async (
-  id: string
-): Promise<IAcademicDepartment | null> => {
-  const result = await AcademicDepartment.findById(id).populate(
-    'academicFaculty'
-  );
+const getSingleDepartment = async (id: string): Promise<IAcademicDepartment | null> => {
+  const result = await AcademicDepartment.findById(id).populate('academicFaculty');
   return result;
 };
 
@@ -90,50 +83,40 @@ const updateDepartment = async (
   id: string,
   payload: Partial<IAcademicDepartment>
 ): Promise<IAcademicDepartment | null> => {
-  const result = await AcademicDepartment.findOneAndUpdate(
-    { _id: id },
-    payload,
-    {
-      new: true,
-    }
-  ).populate('academicFaculty');
+  const result = await AcademicDepartment.findOneAndUpdate({ _id: id }, payload, {
+    new: true
+  }).populate('academicFaculty');
   return result;
 };
 
-const deleteDepartment = async (
-  id: string
-): Promise<IAcademicDepartment | null> => {
+const deleteDepartment = async (id: string): Promise<IAcademicDepartment | null> => {
   const result = await AcademicDepartment.findByIdAndDelete(id);
   return result;
 };
-const createDepartmentFromEvent = async (
-  e: IAcademicDepartmentCreatedEvent
-): Promise<void> => {
+const createDepartmentFromEvent = async (e: IAcademicDepartmentCreatedEvent): Promise<void> => {
   const academicFaculty = await AcademicFaculty.findOne({
-    syncId: e.academicFacultyId,
+    syncId: e.academicFacultyId
   });
   const payload = {
     title: e.title,
     academicFaculty: academicFaculty?._id,
-    syncId: e.id,
+    syncId: e.id
   };
   await AcademicDepartment.create(payload);
 };
-const updateOneInDBFromEvent = async (
-  e: AcademicDepartmentUpdatedEvent
-): Promise<void> => {
+const updateOneInDBFromEvent = async (e: AcademicDepartmentUpdatedEvent): Promise<void> => {
   const academicFaculty = await AcademicFaculty.findOne({
-    syncId: e.academicFacultyId,
+    syncId: e.academicFacultyId
   });
   const payload = {
     title: e.title,
-    academicFaculty: academicFaculty?._id,
+    academicFaculty: academicFaculty?._id
   };
 
   await AcademicDepartment.findOneAndUpdate(
     { syncId: e.id },
     {
-      $set: payload,
+      $set: payload
     }
   );
 };
@@ -149,5 +132,5 @@ export const AcademicDepartmentService = {
   updateDepartment,
   deleteDepartment,
   createDepartment,
-  createDepartmentFromEvent,
+  createDepartmentFromEvent
 };
