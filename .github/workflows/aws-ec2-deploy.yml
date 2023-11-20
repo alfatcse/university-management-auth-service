@@ -10,12 +10,12 @@ jobs:
     runs-on: self-hosted
     steps:
       - name: Stop the old container
-        run: university-management-auth-service || true
-      - name: Delete the old Container
-        run: docker rm  university-management-auth-service || true
-      - name: Delete the old Image
-        run: docker rmi  ${{secrets.DOCKERHUB_USERNAME}}/university-management-auth-service:latest || true
-      - name: Pull image from docker hub
+        run: docker stop university-management-auth-service || true
+      - name: Remove the old Container
+        run: docker rm university-management-auth-service || true
+      - name: Remove the old Image
+        run: docker rmi ${{secrets.DOCKERHUB_USERNAME}}/university-management-auth-service:latest || true
+      - name: Pull image from Docker Hub
         run: docker pull ${{secrets.DOCKERHUB_USERNAME}}/university-management-auth-service:latest
-      - name: Run the Image
-        run: docker run -d -p 5009:5009
+      - name: Run the Image with Port Configuration
+        run: docker run -d -p 5009:5009 ${{secrets.DOCKERHUB_USERNAME}}/university-management-auth-service:latest
