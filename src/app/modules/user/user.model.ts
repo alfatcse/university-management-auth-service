@@ -62,8 +62,6 @@ userSchema.methods.isPasswordMatched = async function (
   return await bcrypt.compare(givenPassword, savedPassword);
 };
 userSchema.pre('save', async function (next) {
-  // eslint-disable-next-line no-console
-  console.log(this);
   this.password = await bcrypt.hash(
     this.password,
     Number(config.bycrypt_salt_rounds)

@@ -21,11 +21,12 @@ async function bootstrap() {
     await RedisClient.connect().then(() => {
       subscribeToEvents();
     });
-    await mongoose.connect(config.database_url as string);
+    const uri: string = config.database_url as string;
+    await mongoose.connect(uri);
     logger.info(`Database Connected`);
     server = app.listen(config.port, () => {
       logger.info(
-        `Programming Hero User Auth Server listening on port ${config.port}`
+        `University Management Auth Server listening on port ${config.port}`
       );
     });
   } catch (err) {

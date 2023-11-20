@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import mongoose, { SortOrder } from 'mongoose';
 import config from '../../../config/index';
 import { IUser } from '../user/user.interface';
