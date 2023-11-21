@@ -25,7 +25,7 @@ COPY --from=build /app ./
 
 # Set permissions if needed
 RUN ["chmod", "+x", "./entrypoint.sh"]
-
+COPY .env.example .env
 # Expose the port
 EXPOSE 5009
 
