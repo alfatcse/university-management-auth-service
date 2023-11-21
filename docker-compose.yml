@@ -3,6 +3,6 @@ services:
   node-app:
     image: alfatjahan/university-management-auth-service:latest
     container_name: university-management-auth-service
-    network_mode: 'host'
-    ports:
-      - "5009:5009" 
+   # network_mode: 'host'
+    ports: 
+        - 5009:5009 
