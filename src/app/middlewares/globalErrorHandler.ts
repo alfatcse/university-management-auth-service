@@ -8,18 +8,14 @@ import { Error } from 'mongoose';
 import { ZodError } from 'zod';
 import handleZodError from '../../errors/handleZodError';
 import handleCastError from '../../errors/handleCastError';
-//global Error handler
-const globalErrorHandler: ErrorRequestHandler = (
-  error,
-  // eslint-disable-next-line no-unused-vars
-  req: Request,
-  res: Response
-) => {
+const globalErrorHandler: ErrorRequestHandler = (error, req: Request, res: Response) => {
   // eslint-disable-next-line no-unused-expressions
   config.env === 'development'
     ? // eslint-disable-next-line no-console
       console.log('Global Error Handler', error)
     : errorLogger.error('Global Error Handler', error);
+  // eslint-disable-next-line no-console
+  console.log('Global Error::', error);
   let statusCode = 500;
   let message = 'Something Went Wrong!';
   let errorMessages: IGenericErrorMessage[] = [];
@@ -35,8 +31,8 @@ const globalErrorHandler: ErrorRequestHandler = (
       ? [
           {
             path: '',
-            message: error?.message,
-          },
+            message: error?.message
+          }
         ]
       : [];
   } else if (error?.name === 'CastError') {
@@ -55,8 +51,8 @@ const globalErrorHandler: ErrorRequestHandler = (
       ? [
           {
             path: '',
-            message: error?.message,
-          },
+            message: error?.message
+          }
         ]
       : [];
   }
@@ -64,7 +60,7 @@ const globalErrorHandler: ErrorRequestHandler = (
     success: false,
     message,
     errorMessages,
-    stack: config.env !== 'production' ? error?.stack : undefined,
+    stack: config.env !== 'production' ? error?.stack : undefined
   });
 };
 export default globalErrorHandler;
