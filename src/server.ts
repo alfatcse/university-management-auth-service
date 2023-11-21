@@ -10,12 +10,12 @@ process.on('uncaughtException', (error) => {
   errorLogger.error(error);
   process.exit(1);
 });
-// process.on('SIGTERM', () => {
-//   logger.info('SIGTERM is received')
-//   if (server) {
-//     server.close()
-//   }
-// })
+process.on('SIGTERM', () => {
+  logger.info('SIGTERM is received');
+  if (server) {
+    server.close();
+  }
+});
 async function bootstrap() {
   try {
     await RedisClient.connect().then(() => {
