@@ -12,7 +12,7 @@ const globalErrorHandler: ErrorRequestHandler = (error, req: Request, res: Respo
   // eslint-disable-next-line no-unused-expressions
   config.env === 'development'
     ? // eslint-disable-next-line no-console
-      console.log('Global Error Handler', error)
+      console.log('Global Error Handler::', error)
     : errorLogger.error('Global Error Handler', error);
   // eslint-disable-next-line no-console
   console.log('Global Error::', error);
