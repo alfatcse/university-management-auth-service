@@ -21,8 +21,11 @@ async function bootstrap() {
     await RedisClient.connect().then(() => {
       subscribeToEvents();
     });
-    const uri: string = config.database_url as string;
-    await mongoose.connect(uri);
+    // const uri: string = config.database_url as string;
+
+    await mongoose.connect(
+      'mongodb+srv://alfatjahan:iuBx2kDXcEFNGGwB@cluster0.xh8qo9f.mongodb.net/university-management?retryWrites=true&w=majority'
+    );
     logger.info(`Database Connected Here`);
     server = app.listen(config.port, () => {
       logger.info(`University Management Auth Server listening on port ${config.port}`);
