@@ -8,7 +8,6 @@ import { IAcademicFaculty } from './academicFaculty.interfaces';
 import { AcademicFacultyService } from './academicFaculty.service';
 import { paginationFields } from '../../../constant/pagination';
 const createFaculty = catchAsync(async (req: Request, res: Response) => {
-  console.log(req.body);
   const { ...academicFacultyData } = req.body;
   const result = await AcademicFacultyService.createFaculty(academicFacultyData);
   sendResponse<IAcademicFaculty>(res, {

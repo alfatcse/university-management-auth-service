@@ -7,7 +7,7 @@ import auth from '../../middlewares/auth';
 const router = express.Router();
 router.post(
   '/create-faculty',
-  // validateRequest(AcademicFacultyValidation.createFacultyZodSchema),
+  validateRequest(AcademicFacultyValidation.createFacultyZodSchema),
   // auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.SUPER_ADMIN),
   AcademicFacultyController.createFaculty
 );

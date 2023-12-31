@@ -12,7 +12,7 @@ import { AcademicFaculty } from './academicFaculty.model';
 import { paginationHelper } from '../../../helpers/paginationhelper';
 const createFaculty = async (payload: IAcademicFaculty): Promise<IAcademicFaculty | null> => {
   const result = await AcademicFaculty.create(payload);
-  console.log('result', result);
+
   return result;
 };
 const getAllFaculties = async (
