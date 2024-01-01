@@ -6,14 +6,13 @@ import {
   AcademicFacultyUpdatedEvent,
   IAcademicFaculty,
   IAcademicFacultyCreatedEvent,
-  IAcademicFacultyFilters,
+  IAcademicFacultyFilters
 } from './academicFaculty.interfaces';
 import { AcademicFaculty } from './academicFaculty.model';
 import { paginationHelper } from '../../../helpers/paginationhelper';
-const createFaculty = async (
-  payload: IAcademicFaculty
-): Promise<IAcademicFaculty | null> => {
+const createFaculty = async (payload: IAcademicFaculty): Promise<IAcademicFaculty | null> => {
   const result = await AcademicFaculty.create(payload);
+
   return result;
 };
 const getAllFaculties = async (
@@ -27,20 +26,20 @@ const getAllFaculties = async (
   const andConditions = [];
   if (searchTerm) {
     andConditions.push({
-      $or: academicFacultySearchableFields.map(field => ({
+      $or: academicFacultySearchableFields.map((field) => ({
         [field]: {
           $regex: searchTerm,
-          $options: 'i',
-        },
-      })),
+          $options: 'i'
+        }
+      }))
     });
   }
 
   if (Object.keys(filtersData).length) {
     andConditions.push({
       $and: Object.entries(filtersData).map(([field, value]) => ({
-        [field]: value,
-      })),
+        [field]: value
+      }))
     });
   }
 
@@ -49,8 +48,7 @@ const getAllFaculties = async (
   if (sortBy && sortOrder) {
     sortConditions[sortBy] = sortOrder;
   }
-  const whereConditions =
-    andConditions.length > 0 ? { $and: andConditions } : {};
+  const whereConditions = andConditions.length > 0 ? { $and: andConditions } : {};
 
   const result = await AcademicFaculty.find(whereConditions)
     .sort(sortConditions)
@@ -63,14 +61,12 @@ const getAllFaculties = async (
     meta: {
       page,
       limit,
-      total,
+      total
     },
-    data: result,
+    data: result
   };
 };
-const getSingleFaculty = async (
-  id: string
-): Promise<IAcademicFaculty | null> => {
+const getSingleFaculty = async (id: string): Promise<IAcademicFaculty | null> => {
   const result = await AcademicFaculty.findById(id);
   return result;
 };
@@ -79,33 +75,27 @@ const updateFaculty = async (
   payload: Partial<IAcademicFaculty>
 ): Promise<IAcademicFaculty | null> => {
   const result = await AcademicFaculty.findOneAndUpdate({ _id: id }, payload, {
-    new: true,
+    new: true
   });
   return result;
 };
-const deleteByIdFromDB = async (
-  id: string
-): Promise<IAcademicFaculty | null> => {
+const deleteByIdFromDB = async (id: string): Promise<IAcademicFaculty | null> => {
   const result = await AcademicFaculty.findByIdAndDelete(id);
   return result;
 };
-const createAcademicFacultyFromEvent = async (
-  e: IAcademicFacultyCreatedEvent
-): Promise<void> => {
+const createAcademicFacultyFromEvent = async (e: IAcademicFacultyCreatedEvent): Promise<void> => {
   await AcademicFaculty.create({
     title: e.title,
-    syncId: e.id,
+    syncId: e.id
   });
 };
-const updateOneIntoDBFromEvent = async (
-  e: AcademicFacultyUpdatedEvent
-): Promise<void> => {
+const updateOneIntoDBFromEvent = async (e: AcademicFacultyUpdatedEvent): Promise<void> => {
   await AcademicFaculty.findOneAndUpdate(
     { syncId: e.id },
     {
       $set: {
-        title: e.title,
-      },
+        title: e.title
+      }
     }
   );
 };
@@ -120,5 +110,5 @@ export const AcademicFacultyService = {
   deleteByIdFromDB,
   updateOneIntoDBFromEvent,
   createAcademicFacultyFromEvent,
-  deleteOneFromDBFromEvent,
+  deleteOneFromDBFromEvent
 };

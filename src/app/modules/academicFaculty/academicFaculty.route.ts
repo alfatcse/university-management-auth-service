@@ -8,7 +8,7 @@ const router = express.Router();
 router.post(
   '/create-faculty',
   validateRequest(AcademicFacultyValidation.createFacultyZodSchema),
-  auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.SUPER_ADMIN),
+  // auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.SUPER_ADMIN),
   AcademicFacultyController.createFaculty
 );
 router.get(
@@ -28,11 +28,7 @@ router.patch(
   AcademicFacultyController.updateFaculty
 );
 
-router.delete(
-  '/:id',
-  auth(ENUM_USER_ROLE.ADMIN),
-  AcademicFacultyController.deleteFaculty
-);
+router.delete('/:id', auth(ENUM_USER_ROLE.ADMIN), AcademicFacultyController.deleteFaculty);
 
 router.get(
   '/',
