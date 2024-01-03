@@ -18,7 +18,7 @@ const getAllAdmins = catchAsync(async (req: Request, res: Response) => {
     success: true,
     message: 'Admins retrieved successfully !',
     meta: result.meta,
-    data: result.data,
+    data: result.data
   });
 });
 const createAdmin = catchAsync(async (req: Request, res: Response) => {
@@ -28,7 +28,7 @@ const createAdmin = catchAsync(async (req: Request, res: Response) => {
     statusCode: httpStatus.OK,
     success: true,
     message: 'User created Successfully!',
-    data: result,
+    data: result
   });
 });
 const getSingleAdmin = catchAsync(async (req: Request, res: Response) => {
@@ -38,7 +38,7 @@ const getSingleAdmin = catchAsync(async (req: Request, res: Response) => {
     statusCode: httpStatus.OK,
     success: true,
     message: 'Single Admin retrieved Successfully!',
-    data: result,
+    data: result
   });
 });
 const updateAdmin = catchAsync(async (req: Request, res: Response) => {
@@ -51,7 +51,7 @@ const updateAdmin = catchAsync(async (req: Request, res: Response) => {
     statusCode: httpStatus.OK,
     success: true,
     message: 'Admin updated successfully !',
-    data: result,
+    data: result
   });
 });
 const deleteAdmin = catchAsync(async (req: Request, res: Response) => {
@@ -61,7 +61,7 @@ const deleteAdmin = catchAsync(async (req: Request, res: Response) => {
     statusCode: httpStatus.OK,
     success: true,
     message: 'Admin deleted successfully !',
-    data: result,
+    data: result
   });
 });
 export const AdminController = {
@@ -69,5 +69,5 @@ export const AdminController = {
   getSingleAdmin,
   updateAdmin,
   deleteAdmin,
-  getAllAdmins,
+  getAllAdmins
 };

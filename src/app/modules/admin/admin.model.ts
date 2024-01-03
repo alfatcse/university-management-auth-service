@@ -7,77 +7,77 @@ export const AdminSchema = new Schema<IAdmin, AdminModel>(
     id: {
       type: String,
       required: true,
-      unique: true,
+      unique: true
     },
     name: {
       type: {
         firstName: {
           type: String,
-          required: true,
+          required: true
         },
         lastName: {
           type: String,
-          required: true,
+          required: true
         },
         middleName: {
           type: String,
-          required: false,
-        },
+          required: false
+        }
       },
-      required: true,
+      required: true
     },
     gender: {
       type: String,
-      enum: gender,
+      enum: gender
     },
     dateOfBirth: {
-      type: String,
+      type: String
     },
     email: {
       type: String,
       unique: true,
-      required: true,
+      required: true
     },
     contactNo: {
       type: String,
       unique: true,
-      required: true,
+      required: true
     },
     emergencyContactNo: {
       type: String,
-      required: true,
+      required: true
     },
     bloodGroup: {
       type: String,
-      enum: bloodGroup,
+      enum: bloodGroup
     },
     presentAddress: {
       type: String,
-      required: true,
+      required: true
     },
     permanentAddress: {
       type: String,
-      required: true,
+      required: true
     },
     designation: {
       type: String,
-      enum: designation,
+      enum: designation
     },
     managementDepartment: {
       type: Schema.Types.ObjectId,
       ref: 'ManagementDepartment',
-      required: true,
+      required: true
     },
     profileImage: {
-      type: String,
+      type: String
       // required: true,
-    },
+    }
   },
   {
     timestamps: true,
     toJSON: {
-      virtuals: true,
-    },
+      virtuals: true
+    }
   }
 );
 export const Admin = model<IAdmin, AdminModel>('Admin', AdminSchema);

@@ -10,7 +10,7 @@ export const createFacultyTest = async (faculty: { title: string; syncId: string
     throw new Error(`Failed to create faculty: ${error}`);
   }
 };
-export const getAllFaculties = async (pagination: { page: number; limit: number }) => {
+export const getAllFacultiesTest = async (pagination: { page: number; limit: number }) => {
   try {
     const response = await supertest(app).get(
       `/api/v1/academic-faculties?page=${pagination.page}&limit=${pagination.page}`
@@ -20,7 +20,7 @@ export const getAllFaculties = async (pagination: { page: number; limit: number 
     throw new Error(`Failed to get all faculties: ${error}`);
   }
 };
-export const getSingleFaculty = async (id: string) => {
+export const getSingleFacultyTest = async (id: string) => {
   try {
     const response = await supertest(app).get(`/api/v1/academic-faculties/${id}`);
     return response;
@@ -28,9 +28,8 @@ export const getSingleFaculty = async (id: string) => {
     throw new Error(`Failed to get all faculties: ${error}`);
   }
 };
-export const deleteByIdFromDB = async (id: string) => {
+export const deleteByIdFromDBTest = async (id: string) => {
   try {
-    console.log(id);
     const response = await supertest(app).delete(`/api/v1/academic-faculties/${id}`);
     return response;
   } catch (error) {

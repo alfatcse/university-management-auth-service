@@ -12,10 +12,7 @@ import { IPaginationOptions } from '../../../interfaces/pagination';
 import { IGenericResponse } from '../../../interfaces/common';
 import { adminSearchableFields } from './admin.constant';
 import { paginationHelper } from '../../../helpers/paginationhelper';
-const createAdmin = async (
-  admin: IAdmin,
-  user: IUser
-): Promise<IUser | null> => {
+const createAdmin = async (admin: IAdmin, user: IUser): Promise<IUser | null> => {
   if (!user.password) {
     user.password = config.default_admin_pass as string;
   }
@@ -34,7 +31,6 @@ const createAdmin = async (
     }
     user.admin = newAdmin[0]._id;
     const newUser = await User.create([user], { session });
-
     if (!newUser.length) {
       throw new ApiError(httpStatus.BAD_REQUEST, 'Failed to Create Faculty');
     }
@@ -51,9 +47,9 @@ const createAdmin = async (
       path: 'admin',
       populate: [
         {
-          path: 'managementDepartment',
-        },
-      ],
+          path: 'managementDepartment'
+        }
+      ]
     });
   }
   return newUseAllData;
@@ -62,10 +58,7 @@ const getSingleAdmin = async (id: string): Promise<IAdmin | null> => {
   const result = await Admin.findOne({ id }).populate('managementDepartment');
   return result;
 };
-const updateAdmin = async (
-  id: string,
-  payload: Partial<IAdmin>
-): Promise<IAdmin | null> => {
+const updateAdmin = async (id: string, payload: Partial<IAdmin>): Promise<IAdmin | null> => {
   const isExist = await Admin.findOne({ id });
 
   if (!isExist) {
@@ -77,14 +70,14 @@ const updateAdmin = async (
   const updatedStudentData: Partial<IAdmin> = { ...adminData };
 
   if (name && Object.keys(name).length > 0) {
-    Object.keys(name).forEach(key => {
+    Object.keys(name).forEach((key) => {
       const nameKey = `name.${key}` as keyof Partial<IAdmin>;
       (updatedStudentData as any)[nameKey] = name[key as keyof typeof name];
     });
   }
 
   const result = await Admin.findOneAndUpdate({ id }, updatedStudentData, {
-    new: true,
+    new: true
   });
   return result;
 };
@@ -100,20 +93,20 @@ const getAllAdmins = async (
 
   if (searchTerm) {
     andConditions.push({
-      $or: adminSearchableFields.map(field => ({
+      $or: adminSearchableFields.map((field) => ({
         [field]: {
           $regex: searchTerm,
-          $options: 'i',
-        },
-      })),
+          $options: 'i'
+        }
+      }))
     });
   }
 
   if (Object.keys(filtersData).length) {
     andConditions.push({
       $and: Object.entries(filtersData).map(([field, value]) => ({
-        [field]: value,
-      })),
+        [field]: value
+      }))
     });
   }
 
@@ -122,8 +115,7 @@ const getAllAdmins = async (
   if (sortBy && sortOrder) {
     sortConditions[sortBy] = sortOrder;
   }
-  const whereConditions =
-    andConditions.length > 0 ? { $and: andConditions } : {};
+  const whereConditions = andConditions.length > 0 ? { $and: andConditions } : {};
 
   const result = await Admin.find(whereConditions)
     .populate('managementDepartment')
@@ -137,9 +129,9 @@ const getAllAdmins = async (
     meta: {
       page,
       limit,
-      total,
+      total
     },
-    data: result,
+    data: result
   };
 };
 const deleteAdmin = async (id: string): Promise<IAdmin | null> => {
@@ -175,5 +167,5 @@ export const AdminService = {
   getSingleAdmin,
   updateAdmin,
   deleteAdmin,
-  getAllAdmins,
+  getAllAdmins
 };
