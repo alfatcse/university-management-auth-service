@@ -2,6 +2,7 @@ import { MongoMemoryServer } from 'mongodb-memory-server';
 import mongoose from 'mongoose';
 import {
   createFacultyTest,
+  deleteByIdFromDB,
   getAllFaculties,
   getSingleFaculty
 } from './academicFacultyAPI/academicFaculty';
@@ -32,8 +33,16 @@ describe('Base', () => {
     it('It should get a Single Faculty', async () => {
       const response = await getSingleFaculty(id);
       expect(response.statusCode).toBe(200);
-      expect(response.body.data[0].title).toBe(faculty.title);
-      expect(response.body.data[0].syncId).toBe(faculty.syncId);
+      expect(response.body.data.title).toBe(faculty.title);
+      expect(response.body.data.syncId).toBe(faculty.syncId);
+    });
+    it('It should delete a Single Faculty', async () => {
+      console.log(id);
+      const response = await deleteByIdFromDB(id);
+      console.log(response.body);
+      expect(response.statusCode).toBe(200);
+      expect(response.body.data.title).toBe(faculty.title);
+      expect(response.body.data.syncId).toBe(faculty.syncId);
     });
   });
   afterAll(async () => {
