@@ -1,10 +1,14 @@
 import supertest from 'supertest';
 import app from '../../app';
-export const createFacultyTest = async (faculty: { title: string; syncId: string }) => {
+export const createFacultyTest = async (faculty_data: {
+  faculty: { title: string; syncId: string };
+  AdminAccessToken: string;
+}) => {
   try {
     const response = await supertest(app)
       .post(`/api/v1/academic-faculties/create-faculty`)
-      .send(faculty);
+      .send(faculty_data.faculty)
+      .set('authorization', `${faculty_data.AdminAccessToken}`);
     return response;
   } catch (error) {
     throw new Error(`Failed to create faculty: ${error}`);

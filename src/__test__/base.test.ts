@@ -24,6 +24,8 @@ describe('BaseAPI', () => {
   let Admin_Id: string = '';
   const pagination = { page: 1, limit: 2 };
   let faculty_id: string = '';
+  let AdminAccessToken = '';
+  let AdminRefreshToken = '';
   describe('AdminAPI', () => {
     it('It should create a admin', async () => {
       const response = await createAdminTest(admin);
@@ -48,6 +50,8 @@ describe('BaseAPI', () => {
         id: Admin_Id,
         password: config.default_admin_pass as string
       });
+      AdminAccessToken = response.body.data.accessToken;
+      AdminRefreshToken = response.body.data.refreshToken;
       expect(response.statusCode).toBe(200);
       expect(response.body.data).toHaveProperty('accessToken');
       expect(response.body.data).toHaveProperty('refreshToken');
@@ -55,7 +59,11 @@ describe('BaseAPI', () => {
   });
   describe('FacultyAPI', () => {
     it('It should create a Faculty', async () => {
-      const response = await createFacultyTest(faculty);
+      const faculty_data = {
+        faculty,
+        AdminAccessToken
+      };
+      const response = await createFacultyTest(faculty_data);
       faculty_id = response.body.data._id;
       expect(response.statusCode).toBe(200);
       expect(response.body.data.title).toBe(faculty.title);
