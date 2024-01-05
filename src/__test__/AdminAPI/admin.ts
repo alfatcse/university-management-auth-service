@@ -26,3 +26,11 @@ export const getSingleAdminTest = async (id: string) => {
     throw new Error(`Failed to get Single admin: ${error}`);
   }
 };
+export const deleteAdminTest = async (id: string) => {
+  try {
+    const response = await supertest(app).delete(`/api/v1/admins/${id}`);
+    return response;
+  } catch (error) {
+    throw new Error(`Failed to delete Single admin: ${error}`);
+  }
+};

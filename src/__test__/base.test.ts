@@ -6,38 +6,30 @@ import {
   getAllFacultiesTest,
   getSingleFacultyTest
 } from './academicFacultyAPI/academicFaculty';
-import { createAdminTest, getAllAdminTest, getSingleAdminTest } from './AdminAPI/admin';
+import {
+  createAdminTest,
+  deleteAdminTest,
+  getAllAdminTest,
+  getSingleAdminTest
+} from './AdminAPI/admin';
+import { admin, faculty } from './dummyData';
+import { loginUser } from './AuthAPI/login';
+import config from '../config';
 describe('BaseAPI', () => {
   beforeAll(async () => {
     const mongoDBMemoryServer = await MongoMemoryReplSet.create({ replSet: { count: 4 } });
     const uri = mongoDBMemoryServer.getUri();
     await mongoose.connect(uri);
   });
+  let Admin_Id: string = '';
+  const pagination = { page: 1, limit: 2 };
+  let faculty_id: string = '';
+  let AdminAccessToken = '';
+  let AdminRefreshToken = '';
   describe('AdminAPI', () => {
-    const admin = {
-      admin: {
-        name: {
-          firstName: 'Fatima',
-          lastName: 'Nahar',
-          middleName: 'Ibnath'
-        },
-        dateOfBirth: '14-05-1998',
-        gender: 'male',
-        bloodGroup: 'O+',
-        email: 'fatima@gmail.com',
-        contactNo: '018005096',
-        emergencyContactNo: '0183300089',
-        presentAddress: 'ctg',
-        permanentAddress: 'ctg',
-        designation: 'HR executive',
-        managementDepartment: '650eaa8d7d5a4252f2050ac5'
-      }
-    };
-    let id: string = '';
-    const pagination = { page: 1, limit: 2 };
     it('It should create a admin', async () => {
       const response = await createAdminTest(admin);
-      id = response.body.data.id;
+      Admin_Id = response.body.data.id;
       expect(response.statusCode).toBe(200);
       expect(response.body.data.admin.email).toBe(admin.admin.email);
     });
@@ -47,21 +39,32 @@ describe('BaseAPI', () => {
       expect(response.body.data[0].email).toBe(admin.admin.email);
     });
     it('It should get single admin', async () => {
-      const response = await getSingleAdminTest(id);
+      const response = await getSingleAdminTest(Admin_Id);
       expect(response.statusCode).toBe(200);
       expect(response.body.data.email).toBe(admin.admin.email);
     });
   });
+  describe('Auth API', () => {
+    it('It Should log in a user', async () => {
+      const response = await loginUser({
+        id: Admin_Id,
+        password: config.default_admin_pass as string
+      });
+      AdminAccessToken = response.body.data.accessToken;
+      AdminRefreshToken = response.body.data.refreshToken;
+      expect(response.statusCode).toBe(200);
+      expect(response.body.data).toHaveProperty('accessToken');
+      expect(response.body.data).toHaveProperty('refreshToken');
+    });
+  });
   describe('FacultyAPI', () => {
-    const faculty = {
-      title: 'Computer Science',
-      syncId: '4555'
-    };
-    const pagination = { page: 1, limit: 2 };
-    let id: string = '';
     it('It should create a Faculty', async () => {
-      const response = await createFacultyTest(faculty);
-      id = response.body.data._id;
+      const faculty_data = {
+        faculty,
+        AdminAccessToken
+      };
+      const response = await createFacultyTest(faculty_data);
+      faculty_id = response.body.data._id;
       expect(response.statusCode).toBe(200);
       expect(response.body.data.title).toBe(faculty.title);
       expect(response.body.data.syncId).toBe(faculty.syncId);
@@ -71,19 +74,25 @@ describe('BaseAPI', () => {
       expect(response.statusCode).toBe(200);
     });
     it('It should get a Single Faculty', async () => {
-      const response = await getSingleFacultyTest(id);
-      expect(response.statusCode).toBe(200);
-      expect(response.body.data.title).toBe(faculty.title);
-      expect(response.body.data.syncId).toBe(faculty.syncId);
-    });
-    it('It should delete a Single Faculty', async () => {
-      const response = await deleteByIdFromDBTest(id);
+      const response = await getSingleFacultyTest(faculty_id);
       expect(response.statusCode).toBe(200);
       expect(response.body.data.title).toBe(faculty.title);
       expect(response.body.data.syncId).toBe(faculty.syncId);
     });
   });
-
+  describe('Delete All Dummy data', () => {
+    it('Delete an admin', async () => {
+      const response = await deleteAdminTest(Admin_Id);
+      expect(response.statusCode).toBe(200);
+      expect(response.body.data.email).toBe(admin.admin.email);
+    });
+    it('It should delete a Single Faculty', async () => {
+      const response = await deleteByIdFromDBTest(faculty_id);
+      expect(response.statusCode).toBe(200);
+      expect(response.body.data.title).toBe(faculty.title);
+      expect(response.body.data.syncId).toBe(faculty.syncId);
+    });
+  });
   afterAll(async () => {
     await mongoose.disconnect();
   });
