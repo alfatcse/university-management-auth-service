@@ -31,8 +31,9 @@ const createAdmin = async (admin: IAdmin, user: IUser): Promise<IUser | null> =>
     }
     user.admin = newAdmin[0]._id;
     const newUser = await User.create([user], { session });
+    console.log(newUser);
     if (!newUser.length) {
-      throw new ApiError(httpStatus.BAD_REQUEST, 'Failed to Create Faculty');
+      throw new ApiError(httpStatus.BAD_REQUEST, 'Failed to Create Admin');
     }
     newUseAllData = newUser[0];
     await session.commitTransaction();

@@ -10,7 +10,7 @@ const loginUser = catchAsync(async (req: Request, res: Response) => {
   const result = await AuthService.loginUser(loginData);
   const cookieOptions = {
     secure: config.env === 'production',
-    httpOnly: true,
+    httpOnly: true
   };
   const { refreshToken } = result;
   res.cookie('refreshToken', refreshToken, cookieOptions);
@@ -18,7 +18,7 @@ const loginUser = catchAsync(async (req: Request, res: Response) => {
     statusCode: httpStatus.OK,
     success: true,
     message: 'User login Successfully',
-    data: result,
+    data: result
   });
 });
 const changePassword = catchAsync(async (req: Request, res: Response) => {
@@ -28,7 +28,7 @@ const changePassword = catchAsync(async (req: Request, res: Response) => {
   sendResponse<ILoginUserResponse>(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'User Password Change Successfully',
+    message: 'User Password Change Successfully'
   });
 });
 const refreshToken = catchAsync(async (req: Request, res: Response) => {
@@ -43,25 +43,25 @@ const refreshToken = catchAsync(async (req: Request, res: Response) => {
     statusCode: httpStatus.OK,
     success: true,
     message: 'User login Successfully',
-    data: result,
+    data: result
   });
 });
 const forgotPass = catchAsync(async (req: Request, res: Response) => {
+  console.log(req.body);
   await AuthService.forgotPass(req.body);
   sendResponse<ILoginUserResponse>(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Check Your Email',
+    message: 'Check Your Email'
   });
 });
 const resetPassword = catchAsync(async (req: Request, res: Response) => {
   const token = req.body.token || '';
-
   await AuthService.resetPassword(req.body.values, token);
   sendResponse<ILoginUserResponse>(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Password Changed',
+    message: 'Password Changed'
   });
 });
 export const AuthController = {
@@ -69,5 +69,5 @@ export const AuthController = {
   refreshToken,
   changePassword,
   forgotPass,
-  resetPassword,
+  resetPassword
 };

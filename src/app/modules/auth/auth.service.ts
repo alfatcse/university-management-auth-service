@@ -6,7 +6,7 @@ import {
   IChangePassword,
   ILoginUser,
   ILoginUserResponse,
-  IRefreshTokenResponse,
+  IRefreshTokenResponse
 } from './auth.interface';
 import config from '../../../config';
 import { JwtPayload, Secret } from 'jsonwebtoken';
@@ -24,10 +24,7 @@ const loginUser = async (payload: ILoginUser): Promise<ILoginUserResponse> => {
   if (!isUserExist) {
     throw new ApiError(httpStatus.NOT_FOUND, 'User not exist');
   }
-  if (
-    isUserExist.password &&
-    !(await user.isPasswordMatched(password, isUserExist?.password))
-  ) {
+  if (isUserExist.password && !(await user.isPasswordMatched(password, isUserExist?.password))) {
     throw new ApiError(httpStatus.UNAUTHORIZED, 'Password Does incorrect');
   }
   const accessToken = jwtHelpers.createToken(
@@ -46,10 +43,7 @@ const loginUser = async (payload: ILoginUser): Promise<ILoginUserResponse> => {
 const refreshToken = async (token: string): Promise<IRefreshTokenResponse> => {
   let verifiedToken = null;
   try {
-    verifiedToken = jwtHelpers.verifyToken(
-      token,
-      config.jwt.refresh_secret as Secret
-    );
+    verifiedToken = jwtHelpers.verifyToken(token, config.jwt.refresh_secret as Secret);
   } catch (err) {
     throw new ApiError(httpStatus.FORBIDDEN, 'invalid refreshToken');
   }
@@ -66,7 +60,7 @@ const refreshToken = async (token: string): Promise<IRefreshTokenResponse> => {
   );
 
   return {
-    accessToken: newAccessToken,
+    accessToken: newAccessToken
   };
 };
 const changePassword = async (
@@ -81,32 +75,27 @@ const changePassword = async (
     throw new ApiError(httpStatus.NOT_FOUND, 'User not exist');
   }
   //checking old password
-  if (
-    isUserExist.password &&
-    !(await user.isPasswordMatched(oldPassword, isUserExist?.password))
-  ) {
+  if (isUserExist.password && !(await user.isPasswordMatched(oldPassword, isUserExist?.password))) {
     throw new ApiError(httpStatus.UNAUTHORIZED, 'Old Password is incorrect');
   }
   //hash password before saving
-  const newHasheddPassword = await bcrypt.hash(
-    newPassword,
-    Number(config.bycrypt_salt_rounds)
-  );
+  const newHasheddPassword = await bcrypt.hash(newPassword, Number(config.bycrypt_salt_rounds));
   const updatedData = {
     password: newHasheddPassword,
     needsPasswordChange: false,
-    passwordChangeAt: new Date(),
+    passwordChangeAt: new Date()
   };
   const query = { id: userData?.userId };
   await User.findOneAndUpdate(query, updatedData);
 };
 const forgotPass = async (payload: any) => {
+  console.log(payload);
   const user = await User.findOne({ id: payload.id }, { id: 1, role: 1 });
   if (!user) {
     throw new ApiError(httpStatus.BAD_REQUEST, 'User Not exists!');
   }
   let profile = null;
-  if (user.role === ENUM_USER_ROLE.ADMIN) {
+  if (user.role === ENUM_USER_ROLE.ADMIN || user.role === ENUM_USER_ROLE.SUPER_ADMIN) {
     profile = await Admin.findOne({ id: user.id });
   } else if (user.role === ENUM_USER_ROLE.FACULTY) {
     profile = await Faculty.findOne({ id: user.id });
@@ -125,8 +114,7 @@ const forgotPass = async (payload: any) => {
     '50m'
   );
   const resetLink: string =
-    config.resetLink +
-    `/reset-password?id=${user.id}&token=${passwordResetToken}`;
+    config.resetLink + `/reset-password?id=${user.id}&token=${passwordResetToken}`;
   await sendEmail(
     profile.email,
     `<div>
@@ -136,7 +124,7 @@ const forgotPass = async (payload: any) => {
   </div>`
   );
   return {
-    message: 'Check your link!',
+    message: 'Check your link!'
   };
 };
 const resetPassword = async (
@@ -164,5 +152,5 @@ export const AuthService = {
   refreshToken,
   changePassword,
   forgotPass,
-  resetPassword,
+  resetPassword
 };

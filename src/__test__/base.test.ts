@@ -13,7 +13,7 @@ import {
   getSingleAdminTest
 } from './AdminAPI/admin';
 import { admin, faculty } from './dummyData';
-import { loginUser } from './AuthAPI/login';
+import { forgotPass, loginUser } from './AuthAPI/login';
 import config from '../config';
 describe('BaseAPI', () => {
   beforeAll(async () => {
@@ -55,6 +55,11 @@ describe('BaseAPI', () => {
       expect(response.statusCode).toBe(200);
       expect(response.body.data).toHaveProperty('accessToken');
       expect(response.body.data).toHaveProperty('refreshToken');
+    });
+    it('It Should send a reset link to email', async () => {
+      const response = await forgotPass({ id: Admin_Id });
+      console.log(response.body);
+      expect(response.statusCode).toBe(200);
     });
   });
   describe('FacultyAPI', () => {
