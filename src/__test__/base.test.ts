@@ -58,8 +58,8 @@ describe('BaseAPI', () => {
     });
     it('It Should send a reset link to email', async () => {
       const response = await forgotPass({ id: Admin_Id });
-      console.log(response.body);
       expect(response.statusCode).toBe(200);
+      expect(response.body.message).toBe('Check Your Email');
     });
   });
   describe('FacultyAPI', () => {

@@ -47,7 +47,6 @@ const refreshToken = catchAsync(async (req: Request, res: Response) => {
   });
 });
 const forgotPass = catchAsync(async (req: Request, res: Response) => {
-  console.log(req.body);
   await AuthService.forgotPass(req.body);
   sendResponse<ILoginUserResponse>(res, {
     statusCode: httpStatus.OK,

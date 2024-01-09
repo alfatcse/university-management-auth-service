@@ -24,14 +24,12 @@ const createAdmin = async (admin: IAdmin, user: IUser): Promise<IUser | null> =>
     const id = await generateAdminId();
     user.id = id;
     admin.id = id;
-
     const newAdmin = await Admin.create([admin], { session });
     if (!newAdmin.length) {
       throw new ApiError(httpStatus.BAD_REQUEST, 'Failed to Create Admin');
     }
     user.admin = newAdmin[0]._id;
     const newUser = await User.create([user], { session });
-    console.log(newUser);
     if (!newUser.length) {
       throw new ApiError(httpStatus.BAD_REQUEST, 'Failed to Create Admin');
     }
