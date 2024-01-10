@@ -89,7 +89,6 @@ const changePassword = async (
   await User.findOneAndUpdate(query, updatedData);
 };
 const forgotPass = async (payload: any) => {
-  console.log(payload);
   const user = await User.findOne({ id: payload.id }, { id: 1, role: 1 });
   if (!user) {
     throw new ApiError(httpStatus.BAD_REQUEST, 'User Not exists!');

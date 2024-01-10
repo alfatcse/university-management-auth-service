@@ -34,11 +34,11 @@ const changePassword = catchAsync(async (req: Request, res: Response) => {
 const refreshToken = catchAsync(async (req: Request, res: Response) => {
   const { refreshToken } = req.cookies;
   const result = await AuthService.refreshToken(refreshToken);
-  // const cookieOptions = {
-  //   secure: config.env === 'production',
-  //   httpOnly: true,
-  // };
-  // res.cookie('refreshToken', refreshToken, cookieOptions);
+  const cookieOptions = {
+    secure: config.env === 'production',
+    httpOnly: true
+  };
+  res.cookie('refreshToken', refreshToken, cookieOptions);
   sendResponse<IRefreshTokenResponse>(res, {
     statusCode: httpStatus.OK,
     success: true,
@@ -47,7 +47,6 @@ const refreshToken = catchAsync(async (req: Request, res: Response) => {
   });
 });
 const forgotPass = catchAsync(async (req: Request, res: Response) => {
-  console.log(req.body);
   await AuthService.forgotPass(req.body);
   sendResponse<ILoginUserResponse>(res, {
     statusCode: httpStatus.OK,
