@@ -13,7 +13,7 @@ import {
   getSingleAdminTest
 } from './AdminAPI/admin';
 import { admin, faculty } from './dummyData';
-import { forgotPass, loginUser } from './AuthAPI/login';
+import { forgotPass, loginUser, refreshToken } from './AuthAPI/auth';
 import config from '../config';
 describe('BaseAPI', () => {
   beforeAll(async () => {
@@ -52,6 +52,10 @@ describe('BaseAPI', () => {
       });
       AdminAccessToken = response.body.data.accessToken;
       AdminRefreshToken = response.body.data.refreshToken;
+      const setCookieHeader = response.headers['set-cookie'];
+      expect(setCookieHeader).toBeDefined();
+      const refreshTokenCookie = setCookieHeader[0].startsWith('refreshToken=');
+      expect(refreshTokenCookie).toBeDefined();
       expect(response.statusCode).toBe(200);
       expect(response.body.data).toHaveProperty('accessToken');
       expect(response.body.data).toHaveProperty('refreshToken');
@@ -60,6 +64,20 @@ describe('BaseAPI', () => {
       const response = await forgotPass({ id: Admin_Id });
       expect(response.statusCode).toBe(200);
       expect(response.body.message).toBe('Check Your Email');
+    });
+    it('It Should generate a refresh token', async () => {
+      const response = await refreshToken({
+        id: Admin_Id,
+        password: config.default_admin_pass as string,
+        refreshToken: AdminRefreshToken
+      });
+      const setCookieHeader = response.headers['set-cookie'];
+      expect(setCookieHeader).toBeDefined();
+      const refreshTokenCookie = setCookieHeader[0].startsWith('refreshToken=');
+      expect(refreshTokenCookie).toBeDefined();
+      expect(response.statusCode).toBe(200);
+      expect(response.body.message).toBe('User login Successfully');
+      expect(response.body.data).toHaveProperty('accessToken');
     });
   });
   describe('FacultyAPI', () => {

@@ -17,3 +17,22 @@ export const forgotPass = async (payload: { id: string }) => {
     throw new Error(`Failed to resolve forgot password: ${error}`);
   }
 };
+export const refreshToken = async (payload: {
+  id: string;
+  password: string;
+  refreshToken: string;
+}) => {
+  try {
+    const craditential = {
+      id: payload.id,
+      password: payload.password
+    };
+    const response = await supertest(app)
+      .post(`/api/v1/auth/refresh-token`)
+      .set('Cookie', `refreshToken=${payload.refreshToken}`)
+      .send(craditential);
+    return response;
+  } catch (error) {
+    throw new Error(`Failed to create refresh token: ${error}`);
+  }
+};
