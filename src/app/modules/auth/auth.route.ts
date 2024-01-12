@@ -5,11 +5,7 @@ import { AuthController } from './auth.controller';
 import auth from '../../middlewares/auth';
 import { ENUM_USER_ROLE } from '../../../enums/users';
 const router = express.Router();
-router.post(
-  '/login',
-  validateRequest(AuthValidation.loginZodSchema),
-  AuthController.loginUser
-);
+router.post('/login', validateRequest(AuthValidation.loginZodSchema), AuthController.loginUser);
 router.post(
   '/refresh-token',
   validateRequest(AuthValidation.refreshTokenZodSchema),
