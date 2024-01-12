@@ -36,3 +36,22 @@ export const refreshToken = async (payload: {
     throw new Error(`Failed to create refresh token: ${error}`);
   }
 };
+export const changePassword = async (payload: {
+  oldPassword: string;
+  newPassword: string;
+  refreshToken: string;
+}) => {
+  try {
+    const craditential = {
+      oldPassword: payload.oldPassword,
+      newPassword: payload.newPassword
+    };
+    const response = await supertest(app)
+      .post('/api/v1/auth/change-password')
+      .set('Cookie', `refreshToken=${payload.refreshToken}`)
+      .send(craditential);
+    console.log(response.body);
+  } catch (error) {
+    throw new Error(`Failed to create refresh token: ${error}`);
+  }
+};

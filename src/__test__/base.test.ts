@@ -13,7 +13,7 @@ import {
   getSingleAdminTest
 } from './AdminAPI/admin';
 import { admin, faculty } from './dummyData';
-import { forgotPass, loginUser, refreshToken } from './AuthAPI/auth';
+import { changePassword, forgotPass, loginUser, refreshToken } from './AuthAPI/auth';
 import config from '../config';
 describe('BaseAPI', () => {
   beforeAll(async () => {
@@ -64,6 +64,14 @@ describe('BaseAPI', () => {
       const response = await forgotPass({ id: Admin_Id });
       expect(response.statusCode).toBe(200);
       expect(response.body.message).toBe('Check Your Email');
+    });
+    it('It Should Change The Current Password', async () => {
+      const payload = {
+        oldPassword: config.default_admin_pass as string,
+        newPassword: '123456',
+        refreshToken: AdminRefreshToken
+      };
+      const response = await changePassword(payload);
     });
     it('It Should generate a refresh token', async () => {
       const response = await refreshToken({
