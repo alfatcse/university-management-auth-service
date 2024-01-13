@@ -52,7 +52,8 @@ describe('BaseAPI', () => {
       });
       AdminAccessToken = response.body.data.accessToken;
       AdminRefreshToken = response.body.data.refreshToken;
-      const setCookieHeader = response.headers['set-cookie'];
+      const setCookieHeader = response.headers['authorization'];
+      console.log('setCookieHeader', setCookieHeader);
       expect(setCookieHeader).toBeDefined();
       const refreshTokenCookie = setCookieHeader[0].startsWith('refreshToken=');
       expect(refreshTokenCookie).toBeDefined();

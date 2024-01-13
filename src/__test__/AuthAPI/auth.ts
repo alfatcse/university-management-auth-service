@@ -29,7 +29,7 @@ export const refreshToken = async (payload: {
     };
     const response = await supertest(app)
       .post(`/api/v1/auth/refresh-token`)
-      .set('Cookie', `refreshToken=${payload.refreshToken}`)
+      .set('Cookie', `refreashToken=${payload.refreshToken}`)
       .send(craditential);
     return response;
   } catch (error) {
@@ -46,11 +46,12 @@ export const changePassword = async (payload: {
       oldPassword: payload.oldPassword,
       newPassword: payload.newPassword
     };
+
     const response = await supertest(app)
       .post('/api/v1/auth/change-password')
-      .set('Cookie', `refreshToken=${payload.refreshToken}`)
+      .set('authorization', `${payload.refreshToken}`)
       .send(craditential);
-    console.log(response.body);
+    console.log('Response::', response.body);
   } catch (error) {
     throw new Error(`Failed to create refresh token: ${error}`);
   }
