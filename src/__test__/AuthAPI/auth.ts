@@ -1,6 +1,5 @@
 import supertest from 'supertest';
 import app from '../../app';
-
 export const loginUser = async (user: { id: string; password: string }) => {
   try {
     const response = await supertest(app).post(`/api/v1/auth/login`).send(user);
@@ -29,7 +28,7 @@ export const refreshToken = async (payload: {
     };
     const response = await supertest(app)
       .post(`/api/v1/auth/refresh-token`)
-      .set('Cookie', `refreashToken=${payload.refreshToken}`)
+      .set('Cookie', `refreshToken=${payload.refreshToken}`)
       .send(craditential);
     return response;
   } catch (error) {
@@ -46,12 +45,11 @@ export const changePassword = async (payload: {
       oldPassword: payload.oldPassword,
       newPassword: payload.newPassword
     };
-
     const response = await supertest(app)
       .post('/api/v1/auth/change-password')
       .set('authorization', `${payload.refreshToken}`)
       .send(craditential);
-    console.log('Response::', response.body);
+    return response.body;
   } catch (error) {
     throw new Error(`Failed to create refresh token: ${error}`);
   }

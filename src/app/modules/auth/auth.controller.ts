@@ -23,7 +23,6 @@ const loginUser = catchAsync(async (req: Request, res: Response) => {
 });
 const changePassword = catchAsync(async (req: Request, res: Response) => {
   const { ...passwordData } = req.body;
-
   const user = req.user;
   await AuthService.changePassword(user, passwordData);
   sendResponse<ILoginUserResponse>(res, {
@@ -43,7 +42,7 @@ const refreshToken = catchAsync(async (req: Request, res: Response) => {
   sendResponse<IRefreshTokenResponse>(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'User login Successfully',
+    message: 'New Refresh Token Generated Successfully',
     data: result
   });
 });
