@@ -72,6 +72,8 @@ describe('BaseAPI', () => {
         refreshToken: AdminRefreshToken
       };
       const response = await changePassword(payload);
+      expect(response.statusCode).toBe(200);
+      expect(response.message).toBe('User Password Change Successfully');
     });
     it('It Should generate a refresh token', async () => {
       const response = await refreshToken({
@@ -84,7 +86,7 @@ describe('BaseAPI', () => {
       const refreshTokenCookie = setCookieHeader[0].startsWith('refreshToken=');
       expect(refreshTokenCookie).toBeDefined();
       expect(response.statusCode).toBe(200);
-      expect(response.body.message).toBe('User login Successfully');
+      expect(response.body.message).toBe('New Refresh Token Generated Successfully');
       expect(response.body.data).toHaveProperty('accessToken');
     });
   });
