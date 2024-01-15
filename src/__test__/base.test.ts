@@ -15,7 +15,7 @@ import {
 import { admin, faculty, semesterData } from './dummyData';
 import { changePassword, forgotPass, loginUser, refreshToken } from './AuthAPI/auth';
 import config from '../config';
-import { createSemester, getAllsemesters } from './SemesterAPI/semester';
+import { createSemester, getAllsemesters, getSingleSemester } from './SemesterAPI/semester';
 describe('BaseAPI', () => {
   beforeAll(async () => {
     const mongoDBMemoryServer = await MongoMemoryReplSet.create({ replSet: { count: 4 } });
@@ -27,6 +27,7 @@ describe('BaseAPI', () => {
   let faculty_id: string = '';
   let AdminAccessToken = '';
   let AdminRefreshToken = '';
+  let semesterId = '';
   describe('AdminAPI', () => {
     it('It should create a admin', async () => {
       const response = await createAdminTest(admin);
@@ -123,12 +124,18 @@ describe('BaseAPI', () => {
     });
     it('It should get all semester data', async () => {
       const response = await getAllsemesters();
-      console.log(response.body);
+      semesterId = response.body.data[0]._id;
       expect(response.statusCode).toBe(200);
       expect(response.body.message).toBe('Semester retrieved Successfully!');
       expect(Array.isArray(response.body.data)).toBe(true);
       expect(response.body.meta.page).toBe(1);
       expect(response.body.meta.limit).toBe(10);
+    });
+    it('It should get a single semester data', async () => {
+      const response = await getSingleSemester(semesterId);
+      expect(response.statusCode).toBe(200);
+      expect(response.body.message).toBe('Semester retrieved Successfully!');
+      expect(response.body.data.year + '').toBe(semesterData.year);
     });
   });
   describe('Delete All Dummy data', () => {

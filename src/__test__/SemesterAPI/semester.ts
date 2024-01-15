@@ -18,3 +18,11 @@ export const getAllsemesters = async () => {
     throw new Error(`Failed to get Semester: ${error}`);
   }
 };
+export const getSingleSemester = async (id: string) => {
+  try {
+    const response = await supertest(app).get(`/api/v1/academic-semesters/${id}`);
+    return response;
+  } catch (error) {
+    throw new Error(`Failed to get Semester: ${error}`);
+  }
+};
