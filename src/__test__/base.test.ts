@@ -15,7 +15,7 @@ import {
 import { admin, faculty, semesterData } from './dummyData';
 import { changePassword, forgotPass, loginUser, refreshToken } from './AuthAPI/auth';
 import config from '../config';
-import { createSemester } from './SemesterAPI/semester';
+import { createSemester, getAllsemesters } from './SemesterAPI/semester';
 describe('BaseAPI', () => {
   beforeAll(async () => {
     const mongoDBMemoryServer = await MongoMemoryReplSet.create({ replSet: { count: 4 } });
@@ -120,6 +120,15 @@ describe('BaseAPI', () => {
       expect(response.statusCode).toBe(200);
       expect(response.body.message).toBe('Semester created Successfully!');
       expect(response.body.data.year + '').toBe(semesterData.year);
+    });
+    it('It should get all semester data', async () => {
+      const response = await getAllsemesters();
+      console.log(response.body);
+      expect(response.statusCode).toBe(200);
+      expect(response.body.message).toBe('Semester retrieved Successfully!');
+      expect(Array.isArray(response.body.data)).toBe(true);
+      expect(response.body.meta.page).toBe(1);
+      expect(response.body.meta.limit).toBe(10);
     });
   });
   describe('Delete All Dummy data', () => {
