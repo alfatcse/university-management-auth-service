@@ -1,5 +1,11 @@
-import config from '../config';
-
+export const semesterData = {
+  code: '02',
+  year: '2025',
+  title: 'Summer',
+  startMonth: 'April',
+  endMonth: 'June',
+  syncId: '123456'
+};
 export const admin = {
   admin: {
     name: {
@@ -19,7 +25,6 @@ export const admin = {
     managementDepartment: '650eaa8d7d5a4252f2050ac5'
   }
 };
-
 export const faculty = {
   title: 'Computer Science',
   syncId: '4555'
