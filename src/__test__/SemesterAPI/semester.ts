@@ -36,3 +36,16 @@ export const searchSingleSemester = async (payload: { keyword: string; value: st
     throw new Error(`Failed to get Semester: ${error}`);
   }
 };
+export const updateSingleSemester = async (payload: {
+  id: string;
+  updateValues: string | object | undefined;
+}) => {
+  try {
+    const response = await supertest(app)
+      .patch(`/api/v1/academic-semesters/${payload.id}`)
+      .send(payload.updateValues);
+    return response;
+  } catch (error) {
+    throw new Error(`Failed to update Semester Info: ${error}`);
+  }
+};
