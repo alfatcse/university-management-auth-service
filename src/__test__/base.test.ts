@@ -19,7 +19,8 @@ import {
   createSemester,
   getAllsemesters,
   getSingleSemester,
-  searchSingleSemester
+  searchSingleSemester,
+  updateSingleSemester
 } from './SemesterAPI/semester';
 describe('BaseAPI', () => {
   beforeAll(async () => {
@@ -152,6 +153,18 @@ describe('BaseAPI', () => {
       expect(response.statusCode).toBe(200);
       expect(response.body.message).toBe('Semester retrieved Successfully!');
       expect(response.body.data[0].year + '').toBe(semesterData.year);
+    });
+    it('It should update a semester data ', async () => {
+      const updateTerm = {
+        id: semesterId,
+        updateValues: {
+          year: '2027'
+        }
+      };
+      const response = await updateSingleSemester(updateTerm);
+      expect(response.statusCode).toBe(200);
+      expect(response.body.message).toBe('Semester Updated Successfully!');
+      expect(response.body.data.year + '').toBe(updateTerm.updateValues.year);
     });
   });
   describe('Delete All Dummy data', () => {
