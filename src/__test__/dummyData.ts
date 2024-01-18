@@ -29,3 +29,8 @@ export const faculty = {
   title: 'Computer Science',
   syncId: '4555'
 };
+export const department = {
+  title: 'Software RTR',
+  academicFaculty: '',
+  syncId: '4556'
+};
