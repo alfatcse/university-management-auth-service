@@ -22,7 +22,7 @@ import {
   searchSingleSemester,
   updateSingleSemester
 } from './SemesterAPI/semester';
-import { CreateDepartment } from './AcademicDepartmentAPI/department';
+import { CreateDepartment, getAllDepartments } from './AcademicDepartmentAPI/department';
 describe('BaseAPI', () => {
   beforeAll(async () => {
     const mongoDBMemoryServer = await MongoMemoryReplSet.create({ replSet: { count: 4 } });
@@ -150,7 +150,6 @@ describe('BaseAPI', () => {
         value: semesterData.year
       };
       const response = await searchSingleSemester(searchTerm);
-      console.log(response.body);
       expect(response.statusCode).toBe(200);
       expect(response.body.message).toBe('Semester retrieved Successfully!');
       expect(response.body.data[0].year + '').toBe(semesterData.year);
@@ -176,6 +175,14 @@ describe('BaseAPI', () => {
       expect(response.body.message).toBe('Academic Department created successfully');
       expect(response.body.data.title).toBe(department.title);
       expect(response.body.data.academicFaculty.title).toBe(faculty.title);
+    });
+    it('It should get all departments', async () => {
+      const response = await getAllDepartments();
+      expect(response.statusCode).toBe(200);
+      expect(response.body.message).toBe('Academic departments fetched successfully');
+      expect(Array.isArray(response.body.data)).toBe(true);
+      expect(response.body.meta.page).toBe(1);
+      expect(response.body.meta.limit).toBe(10);
     });
   });
   describe('Delete All Dummy data', () => {
