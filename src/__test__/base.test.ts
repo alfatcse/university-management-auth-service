@@ -22,7 +22,11 @@ import {
   searchSingleSemester,
   updateSingleSemester
 } from './SemesterAPI/semester';
-import { CreateDepartment, getAllDepartments } from './AcademicDepartmentAPI/department';
+import {
+  CreateDepartment,
+  getAllDepartments,
+  getSingleDepartment
+} from './AcademicDepartmentAPI/department';
 describe('BaseAPI', () => {
   beforeAll(async () => {
     const mongoDBMemoryServer = await MongoMemoryReplSet.create({ replSet: { count: 4 } });
@@ -35,6 +39,7 @@ describe('BaseAPI', () => {
   let AdminAccessToken = '';
   let AdminRefreshToken = '';
   let semesterId = '';
+  let departmentId = '';
   describe('AdminAPI', () => {
     it('It should create a admin', async () => {
       const response = await createAdminTest(admin);
@@ -171,6 +176,7 @@ describe('BaseAPI', () => {
     it('It Should Create a Department data', async () => {
       department.academicFaculty = faculty_id;
       const response = await CreateDepartment(department);
+      departmentId = response.body.data.id;
       expect(response.statusCode).toBe(200);
       expect(response.body.message).toBe('Academic Department created successfully');
       expect(response.body.data.title).toBe(department.title);
@@ -183,6 +189,13 @@ describe('BaseAPI', () => {
       expect(Array.isArray(response.body.data)).toBe(true);
       expect(response.body.meta.page).toBe(1);
       expect(response.body.meta.limit).toBe(10);
+    });
+    it('It should get a single department', async () => {
+      const response = await getSingleDepartment(departmentId);
+      console.log(response.body);
+      expect(response.statusCode).toBe(200);
+      expect(response.body.message).toBe('Single Academic Department data fetched successfully!');
+      expect(response.body.data.title).toBe(department.title);
     });
   });
   describe('Delete All Dummy data', () => {

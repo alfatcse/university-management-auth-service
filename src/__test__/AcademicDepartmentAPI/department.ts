@@ -15,6 +15,14 @@ export const getAllDepartments = async () => {
     const response = await supertest(app).get('/api/v1/academic-departments/');
     return response;
   } catch (error) {
-    throw new Error(`Failed to create Semester: ${error}`);
+    throw new Error(`Failed to get all Semesters: ${error}`);
+  }
+};
+export const getSingleDepartment = async (id: string) => {
+  try {
+    const response = await supertest(app).get(`/api/v1/academic-departments/${id}`);
+    return response;
+  } catch (error) {
+    throw new Error(`Failed to get a single Semester: ${error}`);
   }
 };
