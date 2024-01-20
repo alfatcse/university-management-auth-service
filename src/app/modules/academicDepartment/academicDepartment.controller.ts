@@ -9,29 +9,24 @@ import { AcademicDepartmentService } from './academicDepartment.service';
 import { paginationFields } from '../../../constant/pagination';
 const createDepartment = catchAsync(async (req: Request, res: Response) => {
   const { ...academicDepartmentData } = req.body;
-  const result = await AcademicDepartmentService.createDepartment(
-    academicDepartmentData
-  );
+  const result = await AcademicDepartmentService.createDepartment(academicDepartmentData);
   sendResponse<IAcademicDepartment>(res, {
     statusCode: httpStatus.OK,
     success: true,
     message: 'Academic Department created successfully',
-    data: result,
+    data: result
   });
 });
 const getAllDepartments = catchAsync(async (req: Request, res: Response) => {
   const filters = pick(req.query, academicDepartmentFilterableFields);
   const paginationOptions = pick(req.query, paginationFields);
-  const result = await AcademicDepartmentService.getAllDepartments(
-    filters,
-    paginationOptions
-  );
+  const result = await AcademicDepartmentService.getAllDepartments(filters, paginationOptions);
   sendResponse<IAcademicDepartment[]>(res, {
     statusCode: httpStatus.OK,
     success: true,
     message: 'Academic departments fetched successfully',
     meta: result.meta,
-    data: result.data,
+    data: result.data
   });
 });
 
@@ -42,8 +37,8 @@ const getSingleDepartment = catchAsync(async (req: Request, res: Response) => {
   sendResponse<IAcademicDepartment>(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Academic Department fetched successfully',
-    data: result,
+    message: 'Single Academic Department data fetched successfully!',
+    data: result
   });
 });
 
@@ -55,7 +50,7 @@ const updateDepartment = catchAsync(async (req: Request, res: Response) => {
     statusCode: httpStatus.OK,
     success: true,
     message: 'Academic Department updated successfully',
-    data: result,
+    data: result
   });
 });
 
@@ -67,7 +62,7 @@ const deleteDepartment = catchAsync(async (req: Request, res: Response) => {
     statusCode: httpStatus.OK,
     success: true,
     message: 'Academic Department deleted successfully',
-    data: result,
+    data: result
   });
 });
 
@@ -76,5 +71,5 @@ export const AcademicDepartmentController = {
   getSingleDepartment,
   updateDepartment,
   deleteDepartment,
-  createDepartment,
+  createDepartment
 };
