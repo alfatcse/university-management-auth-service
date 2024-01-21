@@ -2,7 +2,7 @@ import { MongoMemoryReplSet } from 'mongodb-memory-server';
 import mongoose from 'mongoose';
 import {
   createFacultyTest,
-  deleteByIdFromDBTest,
+  deleteFaculty,
   getAllFacultiesTest,
   getSingleFacultyTest
 } from './academicFacultyAPI/academicFaculty';
@@ -24,8 +24,10 @@ import {
 } from './SemesterAPI/semester';
 import {
   CreateDepartment,
+  deleteDepartment,
   getAllDepartments,
-  getSingleDepartment
+  getSingleDepartment,
+  updateDepartment
 } from './AcademicDepartmentAPI/department';
 describe('BaseAPI', () => {
   beforeAll(async () => {
@@ -192,10 +194,21 @@ describe('BaseAPI', () => {
     });
     it('It should get a single department', async () => {
       const response = await getSingleDepartment(departmentId);
-      console.log(response.body);
       expect(response.statusCode).toBe(200);
       expect(response.body.message).toBe('Single Academic Department data fetched successfully!');
       expect(response.body.data.title).toBe(department.title);
+    });
+    it('It should update a single department', async () => {
+      const updateTerm = {
+        id: departmentId,
+        updateValues: {
+          title: 'Software Development'
+        }
+      };
+      const response = await updateDepartment(updateTerm);
+      expect(response.statusCode).toBe(200);
+      expect(response.body.message).toBe('Academic Department updated successfully');
+      expect(response.body.data.title).toBe(updateTerm.updateValues.title);
     });
   });
   describe('Delete All Dummy data', () => {
@@ -205,10 +218,16 @@ describe('BaseAPI', () => {
       expect(response.body.data.email).toBe(admin.admin.email);
     });
     it('It should delete a Single Faculty', async () => {
-      const response = await deleteByIdFromDBTest(faculty_id);
+      const response = await deleteFaculty(faculty_id);
       expect(response.statusCode).toBe(200);
       expect(response.body.data.title).toBe(faculty.title);
       expect(response.body.data.syncId).toBe(faculty.syncId);
+    });
+    it('It should delete a single Department', async () => {
+      const response = await deleteDepartment(departmentId);
+      expect(response.statusCode).toBe(200);
+      expect(response.body.message).toBe('Academic Department deleted successfully');
+      expect(response.body.data.syncId).toBe(department.syncId);
     });
   });
   afterAll(async () => {

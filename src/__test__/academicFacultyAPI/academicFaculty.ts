@@ -32,7 +32,7 @@ export const getSingleFacultyTest = async (id: string) => {
     throw new Error(`Failed to get all faculties: ${error}`);
   }
 };
-export const deleteByIdFromDBTest = async (id: string) => {
+export const deleteFaculty = async (id: string) => {
   try {
     const response = await supertest(app).delete(`/api/v1/academic-faculties/${id}`);
     return response;
