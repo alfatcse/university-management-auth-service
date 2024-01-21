@@ -26,3 +26,11 @@ export const getSingleDepartment = async (id: string) => {
     throw new Error(`Failed to get a single Semester: ${error}`);
   }
 };
+export const deleteDepartment = async (id: string) => {
+  try {
+    const response = await supertest(app).delete(`/api/v1/academic-departments/${id}`);
+    return response;
+  } catch (error) {
+    throw new Error(`Failed to get a single Semester: ${error}`);
+  }
+};
