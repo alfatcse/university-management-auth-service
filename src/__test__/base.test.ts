@@ -26,7 +26,8 @@ import {
   CreateDepartment,
   deleteDepartment,
   getAllDepartments,
-  getSingleDepartment
+  getSingleDepartment,
+  updateDepartment
 } from './AcademicDepartmentAPI/department';
 describe('BaseAPI', () => {
   beforeAll(async () => {
@@ -197,6 +198,18 @@ describe('BaseAPI', () => {
       expect(response.body.message).toBe('Single Academic Department data fetched successfully!');
       expect(response.body.data.title).toBe(department.title);
     });
+    it('It should update a single department', async () => {
+      const updateTerm = {
+        id: departmentId,
+        updateValues: {
+          title: 'Software Development'
+        }
+      };
+      const response = await updateDepartment(updateTerm);
+      expect(response.statusCode).toBe(200);
+      expect(response.body.message).toBe('Academic Department updated successfully');
+      expect(response.body.data.title).toBe(updateTerm.updateValues.title);
+    });
   });
   describe('Delete All Dummy data', () => {
     it('Delete an admin', async () => {
@@ -213,7 +226,7 @@ describe('BaseAPI', () => {
     it('It should delete a single Department', async () => {
       const response = await deleteDepartment(departmentId);
       expect(response.statusCode).toBe(200);
-      expect(response.body.data.title).toBe(department.title);
+      expect(response.body.message).toBe('Academic Department deleted successfully');
       expect(response.body.data.syncId).toBe(department.syncId);
     });
   });
