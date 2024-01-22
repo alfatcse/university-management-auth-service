@@ -12,7 +12,7 @@ import {
   getAllAdminTest,
   getSingleAdminTest
 } from './AdminAPI/admin';
-import { admin, department, faculty, semesterData } from './dummyData';
+import { admin, department, faculty, faculty_data, semesterData } from './dummyData';
 import { changePassword, forgotPass, loginUser, refreshToken } from './AuthAPI/auth';
 import config from '../config';
 import {
@@ -29,6 +29,7 @@ import {
   getSingleDepartment,
   updateDepartment
 } from './AcademicDepartmentAPI/department';
+import { createFaculty } from './FacultyAPI/Faculty';
 describe('BaseAPI', () => {
   beforeAll(async () => {
     const mongoDBMemoryServer = await MongoMemoryReplSet.create({ replSet: { count: 4 } });
@@ -209,6 +210,16 @@ describe('BaseAPI', () => {
       expect(response.statusCode).toBe(200);
       expect(response.body.message).toBe('Academic Department updated successfully');
       expect(response.body.data.title).toBe(updateTerm.updateValues.title);
+    });
+  });
+  describe('FacultyAPI', () => {
+    it('It should create a faculty', async () => {
+      const faculty_data_with_accessToken = {
+        faculty_data,
+        AdminAccessToken
+      };
+      const response = await createFaculty(faculty_data_with_accessToken);
+      console.log(response.body);
     });
   });
   describe('Delete All Dummy data', () => {
