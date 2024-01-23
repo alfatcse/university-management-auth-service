@@ -12,7 +12,7 @@ import {
   getAllAdminTest,
   getSingleAdminTest
 } from './AdminAPI/admin';
-import { admin, department, faculty, semesterData } from './dummyData';
+import { admin, department, faculty, faculty_data, semesterData } from './dummyData';
 import { changePassword, forgotPass, loginUser, refreshToken } from './AuthAPI/auth';
 import config from '../config';
 import {
@@ -29,11 +29,17 @@ import {
   getSingleDepartment,
   updateDepartment
 } from './AcademicDepartmentAPI/department';
+import { createFaculty } from './FacultyAPI/Faculty';
+import { RedisClient } from '../shared/redis';
+import subscribeToEvents from '../events';
 describe('BaseAPI', () => {
   beforeAll(async () => {
     const mongoDBMemoryServer = await MongoMemoryReplSet.create({ replSet: { count: 4 } });
     const uri = mongoDBMemoryServer.getUri();
     await mongoose.connect(uri);
+    await RedisClient.connect().then(() => {
+      subscribeToEvents();
+    });
   });
   let Admin_Id: string = '';
   const pagination = { page: 1, limit: 2 };
@@ -42,7 +48,7 @@ describe('BaseAPI', () => {
   let AdminRefreshToken = '';
   let semesterId = '';
   let departmentId = '';
-  describe('AdminAPI', () => {
+  describe('Admin API', () => {
     it('It should create a admin', async () => {
       const response = await createAdminTest(admin);
       Admin_Id = response.body.data.id;
@@ -106,7 +112,7 @@ describe('BaseAPI', () => {
       expect(response.body.data).toHaveProperty('accessToken');
     });
   });
-  describe('FacultyAPI', () => {
+  describe('Academic Faculty API', () => {
     it('It should create a Faculty', async () => {
       const faculty_data = {
         faculty,
@@ -129,7 +135,7 @@ describe('BaseAPI', () => {
       expect(response.body.data.syncId).toBe(faculty.syncId);
     });
   });
-  describe('SemesterAPI', () => {
+  describe('Semester API', () => {
     it('It should create a semester data', async () => {
       const response = await createSemester(semesterData);
       expect(response.statusCode).toBe(200);
@@ -174,7 +180,7 @@ describe('BaseAPI', () => {
       expect(response.body.data.year + '').toBe(updateTerm.updateValues.year);
     });
   });
-  describe('DepartmentAPI', () => {
+  describe('Department API', () => {
     it('It Should Create a Department data', async () => {
       department.academicFaculty = faculty_id;
       const response = await CreateDepartment(department);
@@ -209,6 +215,20 @@ describe('BaseAPI', () => {
       expect(response.statusCode).toBe(200);
       expect(response.body.message).toBe('Academic Department updated successfully');
       expect(response.body.data.title).toBe(updateTerm.updateValues.title);
+    });
+  });
+  describe('Faculty API', () => {
+    it('It should create a faculty', async () => {
+      const faculty_data_with_accessToken = {
+        faculty_data,
+        AdminAccessToken
+      };
+      faculty_data_with_accessToken.faculty_data.faculty.academicDepartment = departmentId;
+      faculty_data_with_accessToken.faculty_data.faculty.academicFaculty = faculty_id;
+      const response = await createFaculty(faculty_data_with_accessToken);
+      expect(response.statusCode).toBe(200);
+      expect(response.body.message).toBe('User created Successfully!');
+      expect(response.body.data.role).toBe('faculty');
     });
   });
   describe('Delete All Dummy data', () => {

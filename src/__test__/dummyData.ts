@@ -34,3 +34,23 @@ export const department = {
   academicFaculty: '',
   syncId: '4556'
 };
+export const faculty_data = {
+  faculty: {
+    name: {
+      firstName: 'Alfat ',
+      lastName: 'Jahan',
+      middleName: 'Rony'
+    },
+    dateOfBirth: '24-04-1998',
+    gender: 'male',
+    bloodGroup: 'O+',
+    email: 'alfat@gmail.com',
+    contactNo: '014580056',
+    emergencyContactNo: '01800089',
+    presentAddress: 'ctg',
+    permanentAddress: 'ctg',
+    designation: 'Lecturer',
+    academicDepartment: 'ecbf9a21-10f4-4d3e-974a-208481049fce',
+    academicFaculty: 'c2146305-bdeb-44e5-b2bd-9f22c87f3b93'
+  }
+};
