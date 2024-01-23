@@ -1,5 +1,6 @@
 import supertest from 'supertest';
 import app from '../../app';
+
 export const CreateDepartment = async (payload: string | object | undefined) => {
   try {
     const response = await supertest(app)

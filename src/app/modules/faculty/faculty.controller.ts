@@ -16,7 +16,7 @@ const getAllFaculties = catchAsync(async (req: Request, res: Response) => {
     success: true,
     message: 'All Faculty retrieved Successfully!',
     meta: result.meta,
-    data: result.data,
+    data: result.data
   });
 });
 const createFaculty = catchAsync(async (req: Request, res: Response) => {
@@ -26,7 +26,7 @@ const createFaculty = catchAsync(async (req: Request, res: Response) => {
     statusCode: httpStatus.OK,
     success: true,
     message: 'User created Successfully!',
-    data: result,
+    data: result
   });
 });
 const getSingleFaculty = catchAsync(async (req: Request, res: Response) => {
@@ -36,7 +36,7 @@ const getSingleFaculty = catchAsync(async (req: Request, res: Response) => {
     statusCode: httpStatus.OK,
     success: true,
     message: 'Single Faculty retrieved Successfully!',
-    data: result,
+    data: result
   });
 });
 const updateFaculty = catchAsync(async (req: Request, res: Response) => {
@@ -47,7 +47,7 @@ const updateFaculty = catchAsync(async (req: Request, res: Response) => {
     statusCode: httpStatus.OK,
     success: true,
     message: 'Faculty Updated Successfully!',
-    data: result,
+    data: result
   });
 });
 const deleteFaculty = catchAsync(async (req: Request, res: Response) => {
@@ -58,7 +58,7 @@ const deleteFaculty = catchAsync(async (req: Request, res: Response) => {
     statusCode: httpStatus.OK,
     success: true,
     message: 'faculty deleted successfully !',
-    data: result,
+    data: result
   });
 });
 export const FacultyController = {
@@ -66,5 +66,5 @@ export const FacultyController = {
   createFaculty,
   getSingleFaculty,
   updateFaculty,
-  deleteFaculty,
+  deleteFaculty
 };
