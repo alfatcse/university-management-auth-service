@@ -29,7 +29,7 @@ import {
   getSingleDepartment,
   updateDepartment
 } from './AcademicDepartmentAPI/department';
-import { createFaculty } from './FacultyAPI/Faculty';
+import { createFaculty, getAllFaculties } from './FacultyAPI/Faculty';
 import { RedisClient } from '../shared/redis';
 import subscribeToEvents from '../events';
 describe('BaseAPI', () => {
@@ -230,6 +230,12 @@ describe('BaseAPI', () => {
       expect(response.body.message).toBe('User created Successfully!');
       expect(response.body.data.role).toBe('faculty');
     });
+    it('Get all faculties data', async () => {
+      const response = await getAllFaculties(AdminAccessToken);
+      expect(response.statusCode).toBe(200);
+      expect(response.body.message).toBe('All Faculty retrieved Successfully!');
+      expect(Array.isArray(response.body.data)).toBe(true);
+    });
   });
   describe('Delete All Dummy data', () => {
     it('Delete an admin', async () => {
@@ -252,5 +258,8 @@ describe('BaseAPI', () => {
   });
   afterAll(async () => {
     await mongoose.disconnect();
+    await RedisClient.disconnect().then(() => {
+      console.log('Redis disconnected Successfully!');
+    });
   });
 });
