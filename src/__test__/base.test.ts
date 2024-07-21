@@ -12,7 +12,7 @@ import {
   getAllAdminTest,
   getSingleAdminTest
 } from './AdminAPI/admin';
-import { admin, department, faculty, faculty_data, semesterData } from './dummyData';
+import { admin, department, faculty, faculty_data, semesterData, student_data } from './dummyData';
 import { changePassword, forgotPass, loginUser, refreshToken } from './AuthAPI/auth';
 import config from '../config';
 import {
@@ -32,6 +32,7 @@ import {
 import { createFaculty, getAllFaculties } from './FacultyAPI/Faculty';
 import { RedisClient } from '../shared/redis';
 import subscribeToEvents from '../events';
+import { CreateStudent, DeleteStudent } from './StudentAPI/student';
 describe('BaseAPI', () => {
   beforeAll(async () => {
     const mongoDBMemoryServer = await MongoMemoryReplSet.create({ replSet: { count: 4 } });
@@ -48,6 +49,7 @@ describe('BaseAPI', () => {
   let AdminRefreshToken = '';
   let semesterId = '';
   let departmentId = '';
+  let student_id = '';
   describe('Admin API', () => {
     it('It should create a admin', async () => {
       const response = await createAdminTest(admin);
@@ -237,6 +239,13 @@ describe('BaseAPI', () => {
       expect(Array.isArray(response.body.data)).toBe(true);
     });
   });
+  describe('Student API', () => {
+    it('It should create a student', async () => {
+      const response = await CreateStudent(student_data);
+      expect(response.statusCode).toBe(200);
+      student_id = response.body.data.id;
+    });
+  });
   describe('Delete All Dummy data', () => {
     it('Delete an admin', async () => {
       const response = await deleteAdminTest(Admin_Id);
@@ -255,7 +264,13 @@ describe('BaseAPI', () => {
       expect(response.body.message).toBe('Academic Department deleted successfully');
       expect(response.body.data.syncId).toBe(department.syncId);
     });
+    it('It should delete a single Student', async () => {
+      const response = await DeleteStudent(student_id);
+      expect(response.statusCode).toBe(200);
+      expect(response.body.message).toBe('Student Deleted Successfully!');
+    });
   });
+
   afterAll(async () => {
     await mongoose.disconnect();
     await RedisClient.disconnect().then(() => {

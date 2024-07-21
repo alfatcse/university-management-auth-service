@@ -10,16 +10,13 @@ import { studentFilterableFields } from './student.constant';
 const getAllStudents = catchAsync(async (req: Request, res: Response) => {
   const filters = pick(req.query, studentFilterableFields);
   const paginationOptions = pick(req.query, paginationFields);
-  const result = await StudentService.getAllStudents(
-    filters,
-    paginationOptions
-  );
+  const result = await StudentService.getAllStudents(filters, paginationOptions);
   sendResponse<IStudent[]>(res, {
     statusCode: httpStatus.OK,
     success: true,
     message: 'All Students retrieved Successfully!',
     data: result.data,
-    meta: result.meta,
+    meta: result.meta
   });
 });
 const getSingleStudent = catchAsync(async (req: Request, res: Response) => {
@@ -29,7 +26,7 @@ const getSingleStudent = catchAsync(async (req: Request, res: Response) => {
     statusCode: httpStatus.OK,
     success: true,
     message: 'Student retrieved Successfully!',
-    data: result,
+    data: result
   });
 });
 const updateStudent = catchAsync(async (req: Request, res: Response) => {
@@ -40,7 +37,7 @@ const updateStudent = catchAsync(async (req: Request, res: Response) => {
     statusCode: httpStatus.OK,
     success: true,
     message: 'Student Updated Successfully!',
-    data: result,
+    data: result
   });
 });
 const deleteStudent = catchAsync(async (req: Request, res: Response) => {
@@ -50,25 +47,24 @@ const deleteStudent = catchAsync(async (req: Request, res: Response) => {
     statusCode: httpStatus.OK,
     success: true,
     message: 'Student Deleted Successfully!',
-    data: result,
+    data: result
   });
 });
-const createStudent: RequestHandler = catchAsync(
-  async (req: Request, res: Response) => {
-    const { student, ...userData } = req.body;
-    const result = await StudentService.createStudent(student, userData);
-    sendResponse(res, {
-      statusCode: httpStatus.OK,
-      success: true,
-      message: 'User created Successfully!',
-      data: result,
-    });
-  }
-);
+const createStudent: RequestHandler = catchAsync(async (req: Request, res: Response) => {
+  console.log(req.body);
+  const { student, ...userData } = req.body;
+  const result = await StudentService.createStudent(student, userData);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'User created Successfully!',
+    data: result
+  });
+});
 export const StudentController = {
   getAllStudents,
   getSingleStudent,
   updateStudent,
   deleteStudent,
-  createStudent,
+  createStudent
 };

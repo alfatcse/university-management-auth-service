@@ -54,3 +54,40 @@ export const faculty_data = {
     academicFaculty: 'c2146305-bdeb-44e5-b2bd-9f22c87f3b93'
   }
 };
+export const student_data = {
+  password: '123456',
+  profileImage: 'eee',
+  student: {
+    name: {
+      firstName: 'Mkkoezbaul',
+      lastName: 'Abedin',
+      middleName: 'Forhan'
+    },
+    dateOfBirth: '24-04-1998',
+    gender: 'male',
+    bloodGroup: 'O+',
+    email: 'usf@gmail.com',
+    contactNo: '9033494',
+    emergencyContactNo: '016045644550007890000',
+    presentAddress: 'CTG',
+    permanentAddress: 'CTG',
+    academicFaculty: '6488e5d429a4362da2c9b066',
+    academicDepartment: '6488e5fe29a4362da2c9b068',
+    academicSemester: '6488e55c29a4362da2c9b060',
+    guardian: {
+      fatherName: 'MD.ABBU',
+      fatherOccupation: 'Retired Teacher',
+      fatherContactNo: '01600000000',
+      motherName: 'Mrs.Ammu',
+      motherOccupation: 'Housewife',
+      motherContactNo: '01600000000',
+      address: 'CTG'
+    },
+    localGuardian: {
+      name: 'Zahid Hasan',
+      occupation: 'Service Holder',
+      contactNo: '01600000000',
+      address: 'Dhaka'
+    }
+  }
+};
