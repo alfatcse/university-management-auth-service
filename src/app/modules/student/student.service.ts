@@ -67,6 +67,7 @@ const getSingleStudent = async (id: string): Promise<IStudent | null> => {
     .populate('academicSemester')
     .populate('academicDepartment')
     .populate('academicFaculty');
+  //console.log(result);  
   return result;
 };
 const updateStudent = async (
@@ -155,6 +156,7 @@ const createStudent = async (
   try {
     session.startTransaction();
     const id = await generateStudentId(academicSemester);
+    console.log('studentId::',id)
     user.id = id;
     student.id = id;
     const newStudent = await Student.create([student], { session });

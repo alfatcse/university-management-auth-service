@@ -32,7 +32,7 @@ import {
 import { createFaculty, getAllFaculties } from './FacultyAPI/Faculty';
 import { RedisClient } from '../shared/redis';
 import subscribeToEvents from '../events';
-import { CreateStudent, DeleteStudent } from './StudentAPI/student';
+import { CreateStudent, DeleteStudent, GetAllStudent, getSingleStudent } from './StudentAPI/student';
 describe('BaseAPI', () => {
   beforeAll(async () => {
     const mongoDBMemoryServer = await MongoMemoryReplSet.create({ replSet: { count: 4 } });
@@ -241,10 +241,21 @@ describe('BaseAPI', () => {
   });
   describe('Student API', () => {
     it('It should create a student', async () => {
+      student_data.student.academicFaculty=faculty_id;
+      student_data.student.academicDepartment=departmentId;
+      student_data.student.academicSemester=semesterId;
       const response = await CreateStudent(student_data);
       expect(response.statusCode).toBe(200);
       student_id = response.body.data.id;
     });
+    it('It should get a All Students', async () => {
+     const response = await GetAllStudent();
+     expect(response.statusCode).toBe(200);
+    });
+    it('It should get a single student', async () => {
+      const response = await getSingleStudent(student_id);
+      expect(response.statusCode).toBe(200);
+    })
   });
   describe('Delete All Dummy data', () => {
     it('Delete an admin', async () => {
