@@ -22,6 +22,7 @@ const getAllStudents = catchAsync(async (req: Request, res: Response) => {
 const getSingleStudent = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.id;
   const result = await StudentService.getSingleStudent(id);
+  console.log(result)
   sendResponse<IStudent>(res, {
     statusCode: httpStatus.OK,
     success: true,
@@ -51,7 +52,7 @@ const deleteStudent = catchAsync(async (req: Request, res: Response) => {
   });
 });
 const createStudent: RequestHandler = catchAsync(async (req: Request, res: Response) => {
-  console.log(req.body);
+  // console.log(req.body);
   const { student, ...userData } = req.body;
   const result = await StudentService.createStudent(student, userData);
   sendResponse(res, {

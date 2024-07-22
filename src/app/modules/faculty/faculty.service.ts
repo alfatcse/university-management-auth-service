@@ -65,7 +65,7 @@ const createFaculty = async (faculty: IFaculty, user: IUser): Promise<IUser | nu
       EVENT_FACULTY_CREATED,
       JSON.stringify(newUserAllData.faculty)
     );
-    console.log(a);
+    // console.log(a);
   }
   return newUserAllData;
 };
