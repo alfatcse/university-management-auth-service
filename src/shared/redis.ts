@@ -1,14 +1,25 @@
 import { SetOptions, createClient } from 'redis';
 import config from '../config';
-
 const redisClint = createClient({
-  url: config.redis.url
+  password: config.redis.redisPass,
+  socket: {
+    host: config.redis.url,
+    port: 18475
+  }
 });
 const redisPubClint = createClient({
-  url: config.redis.url
+  password: config.redis.redisPass,
+  socket: {
+    host: config.redis.url,
+    port: 18475
+  }
 });
 const redisSubClint = createClient({
-  url: config.redis.url
+  password: config.redis.redisPass,
+  socket: {
+    host:config.redis.url,
+    port: 18475
+  }
 });
 // eslint-disable-next-line no-console
 redisClint.on('error', (error) => console.log('RedisError', error));
